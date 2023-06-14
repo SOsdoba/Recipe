@@ -70,22 +70,23 @@ create table dbo.Recipe (
         constraint c_Calories_must_be_greater_than_0 check(Calories > 0),
     DraftDate datetime not null default getdate()
         constraint c_Recipe_DraftDate_cannot_be_blank check(DraftDate <> ''),
-    PublishDate datetime
+    PublishDate datetime,
         constraint c_Recipe_PublishDate_cannot_be_blank check(PublishDate <> ''),
-    ArchiveDate datetime
+    ArchiveDate datetime,
         constraint c_Recipe_ArchiveDate_cannot_be_blank check(ArchiveDate <> ''),
     RecipeStatus as case 
         when PublishDate is null and ArchiveDate is null then 'Draft'
         when PublishDate > DraftDate and ArchiveDate is null then 'Published'
         when ArchiveDate > PublishDate and ArchiveDate > DraftDate then 'Archived'
         when ArchiveDate > DraftDate and PublishDate is null then 'Archived'
+        when PublishDate > ArchiveDate then 'Published'
         end persisted,
     RecipePicture as concat('Recipe-', replace(RecipeName, ' ', '-'), '.jpg') persisted,
 --YF Add some constraints about dates to ensure publish/archive are after draft and all dates are not in the future
         constraint c_Recipe_DraftDate_must_be_before_publishdate check(publishdate > draftdate),
-        constraint c_Recipe_DraftDate_cannot_be_in_the_future check(draftdate < getdate()),
-        constraint c_Recipe_PublishDate_cannot_be_in_the_future check(publishdate < getdate()),
-        constraint c_Recipe_ArchiveDate_cannot_be_in_the_future check(archivedate < getdate())
+        constraint c_Recipe_DraftDate_cannot_be_in_the_future check(draftdate <= getdate()),
+        constraint c_Recipe_PublishDate_cannot_be_in_the_future check(publishdate <= getdate()),
+        constraint c_Recipe_ArchiveDate_cannot_be_in_the_future check(archivedate <= getdate())
 )
 go 
 

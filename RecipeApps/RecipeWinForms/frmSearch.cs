@@ -1,13 +1,6 @@
 ﻿using CPUFramework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using CPUWindowsFormFramework;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace RecipeWinForms
 {
@@ -17,7 +10,9 @@ namespace RecipeWinForms
         {
             InitializeComponent();
             btnSearch.Click += BtnSearch_Click;
+            btnNew.Click += BtnNew_Click;
             gRecipes.CellDoubleClick += GRecipes_CellDoubleClick;
+            WindowsFormsUtility.FormatGridForSearchResults(gRecipes);
         }
 
         private void SearchForRecipe(string recipename)
@@ -30,9 +25,18 @@ namespace RecipeWinForms
 
         private void ShowRecipeForm(int rowindex)
         {
-            int id = (int)gRecipes.Rows[rowindex].Cells["RecipeId"].Value;
+            int id = 0;
+            if(rowindex > -1)
+            {
+                id = (int)gRecipes.Rows[rowindex].Cells["RecipeId"].Value;
+            }
             frmRecipe frm = new frmRecipe();
             frm.ShowForm(id);
+        }
+
+        private void BtnNew_Click(object? sender, EventArgs e)
+        {
+            ShowRecipeForm(-1);
         }
 
         private void GRecipes_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
