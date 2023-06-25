@@ -1,13 +1,13 @@
 use RecipeDB
 go
-create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0, @RecipeName varchar(20) = '')
+create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @RecipeName varchar(20) = '', @All bit = 0)
 as 
 begin
-	select r.recipeid, r.recipename, r.calories, r.draftdate, r.publishdate, r.archivedate, r.recipestatus, r.recipepicture
+	select r.recipeid, r.usersid, r.cuisinetypeid, r.recipename, r.calories, r.draftdate, r.publishdate, r.archivedate, r.recipestatus, r.recipepicture
 	from Recipe r
-	where r.recipeid = @recipeid
-	or @All = 1
+	where r.recipeid = @RecipeId
 	or (@RecipeName  <> '' and r.RecipeName like '%' + @RecipeName + '%')
+	or @All = 1
 end
 go
 /*
@@ -18,7 +18,7 @@ exec RecipeGet @RecipeName = ''
 exec RecipeGet @RecipeName = 'h'
 exec RecipeGet @RecipeName = null
 
-declare @recipeid int
-select top 1 @recipeid = r.recipeid from Recipe r
-exec RecipeGet @recipeid = @recipeid
+declare @RecipeId int
+select top 1 @RecipeId = r.recipeid from Recipe r
+exec RecipeGet @RecipeId = @RecipeId
 */

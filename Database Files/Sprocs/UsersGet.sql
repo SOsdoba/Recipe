@@ -1,26 +1,27 @@
 use RecipeDB
 go
-create or alter procedure dbo.UsersGet(@UsersId int = 0, @All bit = 0, @FirstName varchar(50) = '')
+create or alter procedure dbo.UsersGet(@UsersId int = 0, @UserName varchar(50) = '', @All bit = 0)
 as 
 begin
 	select u.usersid, u.firstname, u.lastname, u.username
 	from users u
-	where u.usersid = @usersid
+	where u.usersid = @UsersId
+	or (@UserName <> '' and u.username like '%' + @UserName + '%')
 	or @All = 1
-	or (@firstname <> '' and u.firstname like '%' + @firstname + '%')
 end
 go
+
 /*
 exec UsersGet
 exec UsersGet @All = 1
 
-exec UsersGet @FirstName = ''
-exec UsersGet @FirstName = 'a'
-exec UsersGet @FirstName = null
+exec UsersGet @UserName = ''
+exec UsersGet @UserName = 'a'
+exec UsersGet @UserName = null
 
-declare @Usersid int
-select top 1 @Usersid = u.usersid from users u
-exec UsersGet @Usersid = @Usersid
+declare @UsersId int
+select top 1 @UsersId = u.usersid from users u
+exec UsersGet @UsersId = @UsersId
 
 
 
