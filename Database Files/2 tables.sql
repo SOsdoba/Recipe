@@ -170,7 +170,7 @@ go
 create table dbo.CookBookRecipes (
     CookBookRecipesId int not null identity primary key, 
     CookBookId int not null constraint f_CookBooks_CookBookRecipes foreign key references CookBooks(CookBookId),
-    RecipesId int not null constraint f_Recipe_CookBookRecipes foreign key references Recipe(RecipeId),
+    RecipeId int not null constraint f_Recipe_CookBookRecipes foreign key references Recipe(RecipeId),
     CookBookRecipeSequence int not null 
         constraint c_CookBookRecipeSequence_must_be_greater_than_0 check(CookBookRecipeSequence > 0 ),
     constraint u_CookBookRecipes_CookBookId_Sequence unique(CookBookId, CookBookRecipeSequence)

@@ -46,6 +46,7 @@
             this.lblCaptionCuisineType = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.lstCuisineType = new System.Windows.Forms.ComboBox();
             this.lstUserName = new System.Windows.Forms.ComboBox();
@@ -187,6 +188,7 @@
             this.txtRecipeStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtRecipeStatus.Location = new System.Drawing.Point(111, 283);
             this.txtRecipeStatus.Name = "txtRecipeStatus";
+            this.txtRecipeStatus.ReadOnly = true;
             this.txtRecipeStatus.Size = new System.Drawing.Size(324, 29);
             this.txtRecipeStatus.TabIndex = 13;
             // 
@@ -224,6 +226,7 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSave,
+            this.toolStripSeparator1,
             this.btnDelete});
             this.toolStrip1.Location = new System.Drawing.Point(0, 320);
             this.toolStrip1.Name = "toolStrip1";
@@ -233,6 +236,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -240,8 +244,14 @@
             this.btnSave.Size = new System.Drawing.Size(35, 33);
             this.btnSave.Text = "Save";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 36);
+            // 
             // btnDelete
             // 
+            this.btnDelete.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -305,5 +315,6 @@
         private ToolStripButton btnDelete;
         private ComboBox lstCuisineType;
         private ComboBox lstUserName;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }

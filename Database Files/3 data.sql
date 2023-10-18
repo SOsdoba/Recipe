@@ -228,11 +228,12 @@ union select u.usersid, 'Tasty', 50, 1, '03-21-2020' from Users u where u.userna
    union select CookBookName = 'The Dessert Table', RecipeName = 'Apple Yogurt Smoothie', CookBookRecipeSequence = 1
    union select CookBookName = 'The Dessert Table', RecipeName = 'Butter Muffins', CookBookRecipeSequence = 2
    union select CookBookName = 'The Dessert Table', RecipeName = 'Chocolate Chip Cookies', CookBookRecipeSequence = 3
-   union select CookBookName = 'Tasty', RecipeName = 'Mozzarella Stick', CookBookRecipeSequence = 1
+   union select CookBookName = 'Tasty', RecipeName = 'Mozzarella Sticks', CookBookRecipeSequence = 1
    union select CookBookName = 'Tasty', RecipeName = 'Butter Muffins', CookBookRecipeSequence = 2
    union select CookBookName = 'Tasty', RecipeName = 'Cream Cheese Frosting', CookBookRecipeSequence = 3
+   union select CookBookName = 'Tasty', RecipeName = 'Hot Chocolate', CookBookRecipeSequence = 4
 )
-insert CookBookRecipes(CookBookId, RecipesId, CookBookRecipeSequence)
+insert CookBookRecipes(CookBookId, RecipeId, CookBookRecipeSequence)
 select c.CookBookId, r.RecipeId, x.CookBookRecipeSequence 
 from x
 join CookBooks c 
