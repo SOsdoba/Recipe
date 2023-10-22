@@ -22,11 +22,16 @@ namespace RecipeAppTest
         }
 
         [Test]
-        //[TestCase("Food Test", 50, "2010-01-01", "2014-01-01", "2015-01-01")]
-        [TestCase("tt", 50, "2010-01-01", "2014-01-01", "2014-01-08")]
+        [TestCase("Food Test: ", 50, "2010-01-01", "2014-01-01", "2015-01-01")]
+        [TestCase("Food: ", 50, "2010-01-01", "2014-01-01", "2014-01-08")]
         public void InsertNewRecipe(string recipename, int calories, DateTime draftdate, DateTime publishdate, DateTime archivedate)
         {
-            recipename += " - " + DateTime.Now.ToString();
+            recipename += DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+            DataTable dtrecipe = SQLUtility.GetDataTable("select * from recipe r where r.recipename = '" + recipename + "'");
+            Assume.That(dtrecipe.Rows.Count == 0, "recipe with name " + recipename + " is already found in db. Cannot insert 2 recipes with the same name.");
+            TestContext.WriteLine("Recipe " + recipename + " does not exist in Recipe DB");
+            TestContext.WriteLine("Ensure that recipe " + recipename + " is added to DB.");
+
             DataTable dt = SQLUtility.GetDataTable("select * from recipe where recipeid = 0");
             DataRow r = dt.Rows.Add();
             Assume.That(dt.Rows.Count == 1);
@@ -55,10 +60,13 @@ namespace RecipeAppTest
             int recipeid = GetExistingRecipeId();
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
             int calories = SQLUtility.GetFirstColumnFirstRowValue("select calories from recipe where recipeid = " + recipeid);
-            TestContext.WriteLine("calories for recipeid " + recipeid + " is " + calories);
-            calories = calories + 100;
-            TestContext.WriteLine("change calories to " + calories);
+            TestContext.WriteLine("Calories for recipe with Id " + recipeid + " is " + calories);
+            int increasedcalories = calories + 100;
+            TestContext.WriteLine("Change calories to " + increasedcalories);
+            TestContext.WriteLine("Ensure that recipe with Id " + recipeid + " has " + increasedcalories + " calories.");
             DataTable dt = Recipe.Load(recipeid);
+            Assert.IsTrue(increasedcalories == calories + 100, "recipe with id = " + recipeid + " has not increased calories.");
+            TestContext.WriteLine("Recipe " + recipeid + " has " + increasedcalories + " calories.");
             //AF YOu need to assert that the test successfully changed the recipe calories to the desired amount
 
             //string draftdate = txtdraftdate != "" ? "'" + r["DraftDate"] + "'" : "'" + DateTime.Now.ToString() + "'";
@@ -81,12 +89,12 @@ namespace RecipeAppTest
                 recipename = dt.Rows[0]["RecipeName"].ToString();
             }
             Assume.That(recipeid > 0, "No recipes without connection to a cookbook, can't run test");
-            TestContext.WriteLine("Existing recipe without connection to cookbook, with id = " + recipeid + " " + recipename);
+            TestContext.WriteLine("Record with recipe " + recipeid + "exits in db. (Does not have connection to cookbook).");
             TestContext.WriteLine("Ensure that app can delete " + recipeid);
             Recipe.Delete(dt);
             DataTable dtafterdeltete = SQLUtility.GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(dtafterdeltete.Rows.Count == 0, "record with recipeid " + recipeid + " exists in db");
-            TestContext.WriteLine("Record with recipe " + recipeid + " does not exist in db");
+            TestContext.WriteLine("Record with recipe " + recipeid + " has been deleted and does not exist in db");
         }
 
         [Test]
@@ -96,7 +104,7 @@ namespace RecipeAppTest
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
             //AF TestContext.Write writes the string but doesn't include a line break after, so it looks like this message
             //and the message below are one message, since they are on one line.  I recommend using WriteLine() instead
-            TestContext.Write("Existing recipe with id = " + recipeid);
+            TestContext.WriteLine("Existing recipe with id = " + recipeid);
             TestContext.WriteLine("Ensure that app loads recipe " + recipeid);
             DataTable dt = Recipe.Load(recipeid);
             int loadedid = 0;
@@ -115,8 +123,8 @@ namespace RecipeAppTest
         {
             int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
             //AF The message below has a mistake, it should say there arent recipes that match the search for criteria, not the 'num' variable's value
-            Assume.That(num > 0, "There aren't any recipes that match the search for " + num);
-            TestContext.WriteLine(num + " recipes that match " + criteria);
+            Assume.That(num > 0, "There aren't any recipes that match the search for " + criteria);
+            TestContext.WriteLine(num + " recipes that match '" + criteria + "'.");
             TestContext.WriteLine("Ensure that recipe search returns " + num + " rows");
             DataTable dt = Recipe.SearchRecipes(criteria);
             int results = dt.Rows.Count;
