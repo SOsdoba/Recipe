@@ -2,14 +2,6 @@ using NUnit.Framework.Internal.Execution;
 using RecipeAppSystem;
 using System.Data;
 
-//Best practice is to follow these guidelines - Tests should be self-documenting:
-//Test output should include:
-//•state prior to test
-//•desired outcome
-//•state after test
-//please make sure to follow these guidelines for the tests below, some of them are missing one or more of the above
-
-
 namespace RecipeAppTest
 {
     public class RecipeTest
@@ -67,7 +59,6 @@ namespace RecipeAppTest
             DataTable dt = Recipe.Load(recipeid);
             Assert.IsTrue(increasedcalories == calories + 100, "recipe with id = " + recipeid + " has not increased calories.");
             TestContext.WriteLine("Recipe " + recipeid + " has " + increasedcalories + " calories.");
-            //AF YOu need to assert that the test successfully changed the recipe calories to the desired amount
 
             //string draftdate = txtdraftdate != "" ? "'" + r["DraftDate"] + "'" : "'" + DateTime.Now.ToString() + "'";
             //string publishdate = txtPublishDate.Text != "" ? "'" + r["PublishDate"] + "'" : "null";
@@ -102,8 +93,6 @@ namespace RecipeAppTest
         {
             int recipeid = GetExistingRecipeId();
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
-            //AF TestContext.Write writes the string but doesn't include a line break after, so it looks like this message
-            //and the message below are one message, since they are on one line.  I recommend using WriteLine() instead
             TestContext.WriteLine("Existing recipe with id = " + recipeid);
             TestContext.WriteLine("Ensure that app loads recipe " + recipeid);
             DataTable dt = Recipe.Load(recipeid);
@@ -122,7 +111,6 @@ namespace RecipeAppTest
         public void SearchRecipe(string criteria)
         {
             int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
-            //AF The message below has a mistake, it should say there arent recipes that match the search for criteria, not the 'num' variable's value
             Assume.That(num > 0, "There aren't any recipes that match the search for " + criteria);
             TestContext.WriteLine(num + " recipes that match '" + criteria + "'.");
             TestContext.WriteLine("Ensure that recipe search returns " + num + " rows");
