@@ -39,17 +39,38 @@ namespace RecipeWinForms
 
         private void Save()
         {
-            //DataRow r = dtrecipe.Rows[0];
-            // string draftdate = txtDraftDate.Text;// != "" ? "'" + r["DraftDate"] + "'" : "'" + DateTime.Now.ToString() + "'";
-            // string publishdate = txtPublishDate.Text;// != "" ? "'" + r["PublishDate"] + "'" : "null";
-            // string archivedate = txtArchiveDate.Text; //!= "" ? "'" + r["ArchiveDate"] + "'" : "null";
-            Recipe.Save(dtrecipe);
+            Application.UseWaitCursor = true;
+            try
+            {
+                Recipe.Save(dtrecipe);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Recipe");
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+            }
+            
         }
 
         private void Delete()
         {
-            Recipe.Delete(dtrecipe);
-            this.Close();
+            Application.UseWaitCursor = true;
+            try
+            {
+                Recipe.Delete(dtrecipe);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Recipe");
+            }
+            finally
+            {
+                Application.UseWaitCursor = false;
+            }
         }
 
         private void BtnDelete_Click(object? sender, EventArgs e)

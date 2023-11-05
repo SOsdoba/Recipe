@@ -71,9 +71,9 @@ namespace RecipeAppSystem
                 $"CuisineTypeId = {r["CuisineTypeId"]} ,",
                 $"RecipeName = '{r["RecipeName"]} ',",
                 $"Calories = {r["Calories"]} ,",
-                $"DraftDate = {r["DraftDate"]} ,",
-                $"PublishDate = {r["PublishDate"]} ,",
-                $"ArchiveDate = {r["ArchiveDate"]} ",
+                $"DraftDate = '{r["DraftDate"]} ',",
+                $"PublishDate = '{r["PublishDate"]}' ,",
+                $"ArchiveDate = '{r["ArchiveDate"]} '",
                 $"where RecipeId = {r["RecipeId"]}");
             }
             else
