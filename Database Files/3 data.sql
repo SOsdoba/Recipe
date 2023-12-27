@@ -70,7 +70,7 @@ union select (select u.usersid from users u where u.Username = 'steves'), (selec
 union select (select u.usersid from users u where u.Username = 'davidf'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'English'), 'Cheese Bread', 50, '07-20-2019', null, '02-20-2020'
 union select (select u.usersid from users u where u.Username = 'samuelr'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'American'), 'Butter Muffins', 85, '07-21-2016', '03-20-2020', '04-10-2020'
 union select (select u.usersid from users u where u.Username = 'samuelr'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'American'), 'Hot Chocolate', 60, '08-12-2017', '01-22-2022', '04-11-2022'
-union select (select u.usersid from users u where u.Username = 'samuelr'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'English'), 'Mozzarella Sticks', 45, '01-13-2010', '11-22-2020', null
+union select (select u.usersid from users u where u.Username = 'samuelr'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'English'), 'Mozzarella Stick', 45, '01-13-2010', '11-22-2020', null
 union select (select u.usersid from users u where u.Username = 'davidf'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'French'), 'Cream Cheese Frosting', 30, '12-10-2018', '12-01-2021', null
 
 insert MeasurementType(MeasurementType)
@@ -191,7 +191,6 @@ union select (select m.mealid from meal m where m.MealName = 'Dinner Done'), (se
    union select 'Breakfast Bash', 'Appetizer', 'Apple Yogurt Smoothie', 1
    union select 'Breakfast Bash', 'Dessert', 'Hot Chocolate', 0
    union select 'Lunch IT', 'Main', 'Apple Yogurt Smoothie', 1
-   union select 'Lunch IT', 'Dessert', 'Chocolate Chip Cookies', 1
    union select 'Dinner Done', 'Appetizer', 'Butter Muffins', 1
    union select 'Dinner Done', 'Main', 'Apple Yogurt Smoothie', 1
    union select 'Dinner Done', 'Main', 'Butter Muffins', 1
@@ -218,7 +217,7 @@ union select u.usersid, 'The Dessert Table', 45, 1, '02-17-2022' from Users u wh
 union select u.usersid, 'Tasty', 50, 1, '03-21-2020' from Users u where u.username = 'johnk'
 
 ; with x as (
-   select CookBookName = 'Treats for Two', RecipeName = 'Chocolate Chip Cookies', CookBookRecipeSequence = 1
+   select CookBookName = 'Treats for Two', RecipeName = 'Hot Chocolate', CookBookRecipeSequence = 1
    union select CookBookName = 'Treats for Two', RecipeName = 'Apple Yogurt Smoothie', CookBookRecipeSequence = 2
    union select CookBookName = 'Treats for Two', RecipeName = 'Cheese Bread', CookBookRecipeSequence = 3
    union select CookBookName = 'Treats for Two', RecipeName = 'Butter Muffins', CookBookRecipeSequence = 4
@@ -227,7 +226,7 @@ union select u.usersid, 'Tasty', 50, 1, '03-21-2020' from Users u where u.userna
    union select CookBookName = 'Whip-It-Up', RecipeName = 'Mozzarella Stick', CookBookRecipeSequence = 3
    union select CookBookName = 'The Dessert Table', RecipeName = 'Apple Yogurt Smoothie', CookBookRecipeSequence = 1
    union select CookBookName = 'The Dessert Table', RecipeName = 'Butter Muffins', CookBookRecipeSequence = 2
-   union select CookBookName = 'The Dessert Table', RecipeName = 'Chocolate Chip Cookies', CookBookRecipeSequence = 3
+   union select CookBookName = 'The Dessert Table', RecipeName = 'Cheese Bread', CookBookRecipeSequence = 3
    union select CookBookName = 'Tasty', RecipeName = 'Mozzarella Sticks', CookBookRecipeSequence = 1
    union select CookBookName = 'Tasty', RecipeName = 'Butter Muffins', CookBookRecipeSequence = 2
    union select CookBookName = 'Tasty', RecipeName = 'Cream Cheese Frosting', CookBookRecipeSequence = 3
