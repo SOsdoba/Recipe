@@ -124,6 +124,34 @@ namespace RecipeAppTest
         }
 
         [Test]
+        public void DeleteRecipeArchivedLessThan30DaysOrPublished()
+        {
+            string sql = @"
+select * 
+from recipe r 
+where 
+(r.RecipeStatus = 'published' 
+or datediff(day, r.archivedate, getdate())  < 30)
+";
+            DataTable dt = SQLUtility.GetDataTable(sql);
+            int recipeid = 0;
+            string recipedesc = "";
+            if (dt.Rows.Count > 0)
+            {
+                recipeid = (int)dt.Rows[0]["recipeid"];
+                recipedesc = dt.Rows[0]["RecipeName"].ToString();
+            }
+            Assume.That(recipeid > 0, "No recipes with archive date under 30 or published in DB, can't run test");
+            TestContext.WriteLine("Existing recipe archived under 30 days or published, with id = " + recipeid + " " + recipedesc);
+            TestContext.WriteLine("Ensure that app cannot delete " + recipeid);
+
+            Exception ex = Assert.Throws<Exception>(() => Recipe.Delete(dt));
+
+            TestContext.WriteLine(ex.Message);
+
+        }
+
+        [Test]
         public void DeleteRecipeWithIngredients()
         {
             DataTable dt = SQLUtility.GetDataTable("select top 1 r.recipeid, recipename from recipe r join recipeingredient i on i.recipeid = r.recipeid");
