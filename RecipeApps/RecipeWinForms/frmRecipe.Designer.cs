@@ -168,6 +168,7 @@
             this.txtDraftDate.Location = new System.Drawing.Point(111, 241);
             this.txtDraftDate.Multiline = true;
             this.txtDraftDate.Name = "txtDraftDate";
+            this.txtDraftDate.ReadOnly = true;
             this.txtDraftDate.Size = new System.Drawing.Size(817, 49);
             this.txtDraftDate.TabIndex = 10;
             // 
@@ -178,6 +179,7 @@
             this.txtPublishDate.Location = new System.Drawing.Point(111, 296);
             this.txtPublishDate.Multiline = true;
             this.txtPublishDate.Name = "txtPublishDate";
+            this.txtPublishDate.ReadOnly = true;
             this.txtPublishDate.Size = new System.Drawing.Size(817, 54);
             this.txtPublishDate.TabIndex = 11;
             // 
@@ -187,6 +189,7 @@
             this.txtArchiveDate.Location = new System.Drawing.Point(111, 356);
             this.txtArchiveDate.Multiline = true;
             this.txtArchiveDate.Name = "txtArchiveDate";
+            this.txtArchiveDate.ReadOnly = true;
             this.txtArchiveDate.Size = new System.Drawing.Size(817, 63);
             this.txtArchiveDate.TabIndex = 12;
             // 

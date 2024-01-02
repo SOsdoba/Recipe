@@ -53,37 +53,13 @@ namespace RecipeAppSystem
 
         public static void Save(DataTable dtrecipes)
         {
+            if(dtrecipes.Rows.Count == 0)
+            {
+                throw new Exception("Cannot call Recipe Save method because there are no rows in the table.");
+            }
             DataRow r = dtrecipes.Rows[0];
-            string sql = "";
-            int id = (int)r["RecipeId"];
-
-            //draftdate = draftdate != "" ? "'" + r["DraftDate"] + "'" : "'" + DateTime.Now.ToString() + "'";
-            //publishdate = publishdate != "" ? "'" + r["PublishDate"] + "'" : "null";
-            //archivedate = archivedate != "" ? "'" + r["ArchiveDate"] + "'" : "null";
-            //var draftDateValue = String.IsNullOrEmpty(r["DraftDate"].ToString()) ? "'" + DateTime.Now.ToString() + "'": "'" + r["DraftDate"].ToString() + "'";
-            //var publishDateValue = String.IsNullOrEmpty(r["PublishDate"].ToString()) ? "null" : "'" + r["PublishDate"].ToString() + "'";
-            //var archiveDateValue = String.IsNullOrEmpty(r["ArchiveDate"].ToString()) ? "null" : "'" + r["ArchiveDate"].ToString() + "'";
-
-            if (id > 0)
-            {
-                sql = string.Join(Environment.NewLine, $"update Recipe set",
-                $"UsersId = {r["UsersId"]} ,",
-                $"CuisineTypeId = {r["CuisineTypeId"]} ,",
-                $"RecipeName = '{r["RecipeName"]} ',",
-                $"Calories = {r["Calories"]} ,",
-                $"DraftDate = '{r["DraftDate"]} ',",
-                $"PublishDate = '{r["PublishDate"]}' ,",
-                $"ArchiveDate = '{r["ArchiveDate"]} '",
-                $"where RecipeId = {r["RecipeId"]}");
-            }
-            else
-            {
-                sql = "insert recipe (UsersId, CuisineTypeId, RecipeName, Calories, DraftDate, PublishDate, ArchiveDate)";
-                sql += $"select '{r["UsersId"]}', '{r["CuisineTypeId"]}', '{r["RecipeName"]}', {r["Calories"]}, '{r["DraftDate"]}' , '{r["PublishDate"]}' , '{r["ArchiveDate"]}' ";
-            }
-
-            Debug.Print("---------");
-            SQLUtility.ExecuteSQL(sql);
+            
+            SQLUtility.SaveDataRow(r, "RecipeUpdate");
         }
 
         public static void Delete(DataTable dtrecipes)

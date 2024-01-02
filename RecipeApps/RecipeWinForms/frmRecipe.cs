@@ -9,6 +9,8 @@ namespace RecipeWinForms
     {
         DataTable dtrecipe;
 
+        BindingSource bindsource = new BindingSource();
+
         public frmRecipe()
         {
             InitializeComponent();
@@ -19,6 +21,7 @@ namespace RecipeWinForms
         public void ShowForm(int recipeid)
         {
             dtrecipe = Recipe.Load(recipeid);
+            bindsource.DataSource = dtrecipe;
             if (recipeid == 0)
             {
                 dtrecipe.Rows.Add();
@@ -28,12 +31,12 @@ namespace RecipeWinForms
 
             WindowsFormsUtility.SetListBinding(lstUserName, dtusers, dtrecipe, "Users");
             WindowsFormsUtility.SetListBinding(lstCuisineType, dtcuisinetype, dtrecipe, "CuisineType");
-            WindowsFormsUtility.SetControlBindings(txtRecipeName, dtrecipe);
-            WindowsFormsUtility.SetControlBindings(txtCalories, dtrecipe);
-            WindowsFormsUtility.SetControlBindings(txtDraftDate, dtrecipe);
-            WindowsFormsUtility.SetControlBindings(txtPublishDate, dtrecipe);
-            WindowsFormsUtility.SetControlBindings(txtArchiveDate, dtrecipe);
-            WindowsFormsUtility.SetControlBindings(txtRecipeStatus, dtrecipe);
+            WindowsFormsUtility.SetControlBindings(txtRecipeName, bindsource);
+            WindowsFormsUtility.SetControlBindings(txtCalories, bindsource);
+            WindowsFormsUtility.SetControlBindings(txtDraftDate, bindsource);
+            WindowsFormsUtility.SetControlBindings(txtPublishDate, bindsource);
+            WindowsFormsUtility.SetControlBindings(txtArchiveDate, bindsource);
+            WindowsFormsUtility.SetControlBindings(txtRecipeStatus, bindsource);
             this.Show();
         }
 
@@ -43,6 +46,7 @@ namespace RecipeWinForms
             try
             {
                 Recipe.Save(dtrecipe);
+                bindsource.ResetBindings(false);
             }
             catch (Exception ex)
             {
