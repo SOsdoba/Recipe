@@ -54,7 +54,7 @@
             this.tblMain.RowCount = 2;
             this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tblMain.Size = new System.Drawing.Size(1223, 715);
+            this.tblMain.Size = new System.Drawing.Size(698, 560);
             this.tblMain.TabIndex = 0;
             // 
             // tblSearch
@@ -74,7 +74,7 @@
             this.tblSearch.Name = "tblSearch";
             this.tblSearch.RowCount = 1;
             this.tblSearch.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblSearch.Size = new System.Drawing.Size(1217, 37);
+            this.tblSearch.Size = new System.Drawing.Size(692, 37);
             this.tblSearch.TabIndex = 1;
             // 
             // lblRecipeName
@@ -120,23 +120,20 @@
             // 
             // gRecipes
             // 
-            this.gRecipes.AllowUserToAddRows = false;
-            this.gRecipes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gRecipes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gRecipes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gRecipes.Location = new System.Drawing.Point(3, 46);
             this.gRecipes.Name = "gRecipes";
-            this.gRecipes.ReadOnly = true;
             this.gRecipes.RowTemplate.Height = 25;
             this.gRecipes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gRecipes.Size = new System.Drawing.Size(1217, 666);
+            this.gRecipes.Size = new System.Drawing.Size(692, 511);
             this.gRecipes.TabIndex = 2;
             // 
             // frmSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1223, 715);
+            this.ClientSize = new System.Drawing.Size(698, 560);
             this.Controls.Add(this.tblMain);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
