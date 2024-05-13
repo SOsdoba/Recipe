@@ -1,12 +1,12 @@
-create or alter procedure dbo.RecipeDelete(
-	@RecipeId int,
+create or alter procedure dbo.IngredientDelete(
+	@IngredientId int = 0,
 	@Message varchar(500) = '' output
 )
 as 
 begin
 	declare @return int = 0, @deleteallowed varchar (60)
 
-	select @deleteallowed = isnull(dbo.isdeleteallowed(@recipeid), '')
+	select @deleteallowed = isnull(dbo.isdeleteallowed(@IngredientId), '')
 
 	if @deleteallowed <> ''
 	begin
@@ -16,8 +16,7 @@ begin
 
 	begin try
 		begin tran
-			delete Directions where RecipeId = @recipeid
-			delete Recipe where RecipeId = @recipeid
+			delete Ingredient where IngredientId = @IngredientId
 		commit
 	end try
 	begin catch

@@ -189,20 +189,20 @@ or datediff(day, r.archivedate, getdate())  < 30)
             TestContext.WriteLine("Loaded recipe (" + loadedid + ")");
         }
 
-        [Test]
-        [TestCase("")]
-        [TestCase("s")]
-        public void SearchRecipe(string criteria)
-        {
-            int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
-            Assume.That(num > 0, "There aren't any recipes that match the search for " + criteria);
-            TestContext.WriteLine(num + " recipes that match '" + criteria + "'.");
-            TestContext.WriteLine("Ensure that recipe search returns " + num + " rows");
-            DataTable dt = Recipe.SearchRecipes(criteria);
-            int results = dt.Rows.Count;
-            Assert.IsTrue(results == num, "Results of recipe search does not match number of recipes, " + results + " <> " + num);
-            TestContext.WriteLine("Number of rows returned by recipe search is " + results);
-        }
+        //[Test]
+        //[TestCase("")]
+        //[TestCase("s")]
+        //public void SearchRecipe(string criteria)
+        //{
+        //    int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
+        //    Assume.That(num > 0, "There aren't any recipes that match the search for " + criteria);
+        //    TestContext.WriteLine(num + " recipes that match '" + criteria + "'.");
+        //    TestContext.WriteLine("Ensure that recipe search returns " + num + " rows");
+        //    DataTable dt = Recipe.SearchRecipes(criteria);
+        //    int results = dt.Rows.Count;
+        //    Assert.IsTrue(results == num, "Results of recipe search does not match number of recipes, " + results + " <> " + num);
+        //    TestContext.WriteLine("Number of rows returned by recipe search is " + results);
+        
 
         [Test]
         public void GetListOfUsers()
@@ -211,7 +211,7 @@ or datediff(day, r.archivedate, getdate())  < 30)
             Assume.That(usercount > 0, "No users in DB, can't test");
             TestContext.WriteLine("Num of users in DB = " + usercount);
             TestContext.WriteLine("Ensure that num of rows returned by app matches " + usercount);
-            DataTable dt = Recipe.GetUsersList();
+            DataTable dt = Recipe.GetUsersList(0);
             Assert.IsTrue(dt.Rows.Count == usercount, "Num rows returned by app (" + dt.Rows.Count + ") <> " + usercount);
             TestContext.WriteLine("Number of Users returned by app = " + dt.Rows.Count);
         }

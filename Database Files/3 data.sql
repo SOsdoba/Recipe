@@ -12,7 +12,7 @@ delete MeasurementType
 delete Recipe
 delete Ingredient
 delete CuisineType
-delete Course 
+delete Course
 delete Users 
 
 insert Users(FirstName, LastName, Username)
@@ -177,13 +177,13 @@ union select u.usersid, 'Lunch IT', 1, '02-19-2021' from users u where u.usernam
 union select u.usersid, 'Dinner Done', 1, '10-03-2015' from users u where u.username = 'samuelr'
 
 insert MealCourse(MealId, CourseId)
-select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.courseid from course c where CourseType = 'Main') 
-union select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.courseid from course c where CourseType = 'Appetizer')
-union select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.courseid from course c where CourseType = 'Dessert')
-union select (select m.mealid from meal m where m.MealName = 'Lunch IT'), (select c.courseid from course c where CourseType = 'Main')
-union select (select m.mealid from meal m where m.MealName = 'Lunch IT'), (select c.courseid from course c where CourseType = 'Dessert')
-union select (select m.mealid from meal m where m.MealName = 'Dinner Done'), (select c.courseid from course c where CourseType = 'Appetizer')
-union select (select m.mealid from meal m where m.MealName = 'Dinner Done'), (select c.courseid from course c where CourseType = 'Main')
+select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.CourseId from course c where CourseType = 'Main') 
+union select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.CourseId from course c where CourseType = 'Appetizer')
+union select (select m.mealid from meal m where m.MealName = 'Breakfast Bash'), (select c.CourseId from course c where CourseType = 'Dessert')
+union select (select m.mealid from meal m where m.MealName = 'Lunch IT'), (select c.CourseId from course c where CourseType = 'Main')
+union select (select m.mealid from meal m where m.MealName = 'Lunch IT'), (select c.CourseId from course c where CourseType = 'Dessert')
+union select (select m.mealid from meal m where m.MealName = 'Dinner Done'), (select c.CourseId from course c where CourseType = 'Appetizer')
+union select (select m.mealid from meal m where m.MealName = 'Dinner Done'), (select c.CourseId from course c where CourseType = 'Main')
 
 ; with x as (
    select MealName = 'Breakfast Bash' , CourseType = 'Main', RecipeName = 'Cheese Bread', IsMain = 1

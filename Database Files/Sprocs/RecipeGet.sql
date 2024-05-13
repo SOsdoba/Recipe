@@ -1,24 +1,24 @@
-use RecipeDB
-go
-create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @RecipeName varchar(20) = '', @All bit = 0)
+create or alter procedure dbo.RecipeGet(@RecipeId int = 0, @All bit = 0)
 as 
 begin
-	select r.recipeid, r.usersid, r.cuisinetypeid, r.recipename, r.calories, r.draftdate, r.publishdate, r.archivedate, r.recipestatus, r.recipepicture,
-		RecipeDesc = dbo.recipedesc(r.recipeid)		
+	select RecipeId = r.recipeid, RecipeName = r.recipename, RecipeStatus = r.recipestatus, RecipeUser = concat(u.FirstName, ' ',u.LastName), Calories = r.calories,
+		r.usersid, r.cuisinetypeid, r.draftdate, r.publishdate, r.archivedate,
+		IsDeleteAllowed = dbo.IsDeleteAllowed(r.recipeid)		
 	from Recipe r
+	join users u
+	on u.usersid = r.UsersId
+	left join RecipeIngredient ri
+	on ri.RecipeId = r.RecipeId
 	where r.recipeid = @RecipeId
-	or (@RecipeName  <> '' and r.RecipeName like '%' + @RecipeName + '%')
 	or @All = 1
+	group by r.recipeid, r.recipename, r.RecipeStatus, u.FirstName, u.LastName, r.Calories, r.UsersId, r.CuisineTypeId, r.DraftDate, r.PublishDate, r.ArchiveDate
+
 end
 go
 
-exec RecipeGet
+--exec RecipeGet
 exec RecipeGet @All = 1
 
-exec RecipeGet @RecipeName = ''
-exec RecipeGet @RecipeName = 'h'
-exec RecipeGet @RecipeName = null
-
-declare @RecipeId int
-select top 1 @RecipeId = r.recipeid from Recipe r
-exec RecipeGet @RecipeId = @RecipeId
+--declare @RecipeId int
+--select  @RecipeId = r.recipeid from Recipe r
+--exec RecipeGet @RecipeId = @RecipeId

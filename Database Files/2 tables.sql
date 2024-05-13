@@ -15,7 +15,7 @@ drop table if exists MeasurementType
 drop table if exists Recipe
 drop table if exists Ingredient 
 drop table if exists CuisineType
-drop table if exists Course 
+drop table if exists Course
 drop table if exists Users
 
 create table dbo.Users (
@@ -75,6 +75,7 @@ create table dbo.Recipe (
     ArchiveDate datetime,
         constraint ck_Recipe_ArchiveDate_cannot_be_blank check(ArchiveDate <> ''),
     RecipeStatus as case 
+		when PublishDate is null and DraftDate > ArchiveDate then 'Draft'
         when PublishDate is null and ArchiveDate is null then 'Draft'
         when PublishDate > DraftDate and ArchiveDate is null then 'Published'
         when ArchiveDate > PublishDate and ArchiveDate > DraftDate then 'Archived'
@@ -89,6 +90,18 @@ create table dbo.Recipe (
         constraint ck_Recipe_ArchiveDate_cannot_be_in_the_future check(archivedate <= getdate())
 )
 go 
+go
+alter table Recipe drop column if exists RecipeStatus
+go 
+alter table Recipe add RecipeStatus as case 
+		when PublishDate is null and DraftDate > ArchiveDate then 'Draft'
+        when PublishDate is null and ArchiveDate is null then 'Draft'
+        when PublishDate > DraftDate and ArchiveDate is null then 'Published'
+        when ArchiveDate > PublishDate and ArchiveDate > DraftDate then 'Archived'
+        when ArchiveDate > DraftDate and PublishDate is null then 'Archived'
+        when PublishDate > ArchiveDate then 'Published'
+        end persisted
+go
 
 create table dbo.MeasurementType (
     MeasurementTypeId int not null identity primary key, 

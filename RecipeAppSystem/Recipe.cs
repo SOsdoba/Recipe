@@ -1,25 +1,17 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using CPUFramework;
 
 namespace RecipeAppSystem
 {
     public class Recipe
     {
-        public static DataTable SearchRecipes(string recipename)
+        public static DataTable SearchRecipes()
         {
             DataTable dt = new();
 
-            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
-
-            if (recipename == "")
-            {
-                cmd.Parameters["@All"].Value = 1;
-            }
-
-            cmd.Parameters["@RecipeName"].Value = recipename;
-
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeListGet");
+            cmd.Parameters["@All"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
@@ -28,6 +20,7 @@ namespace RecipeAppSystem
         {
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
+            SQLUtility.SetParamValue(cmd, "@Recipeid", recipeid);
             cmd.Parameters["@RecipeId"].Value = recipeid;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
@@ -42,23 +35,26 @@ namespace RecipeAppSystem
             return dt;
         }
 
-        public static DataTable GetUsersList()
+        public static DataTable GetUsersList( int includeblank)
         {
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSQLCommand("UsersGet");
+            if(includeblank == 1)
+            {
+                cmd.Parameters["@IncludeBlank"].Value = 1;
+            }
             cmd.Parameters["@All"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
-        public static void Save(DataTable dtrecipes)
+        public static void Save(DataTable dtrecipe)
         {
-            if(dtrecipes.Rows.Count == 0)
+            if(dtrecipe.Rows.Count == 0)
             {
                 throw new Exception("Cannot call Recipe Save method because there are no rows in the table.");
             }
-            DataRow r = dtrecipes.Rows[0];
-            
+            DataRow r = dtrecipe.Rows[0];
             SQLUtility.SaveDataRow(r, "RecipeUpdate");
         }
 
@@ -67,8 +63,23 @@ namespace RecipeAppSystem
             int id = (int)dtrecipes.Rows[0]["RecipeId"];
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeDelete");
             SQLUtility.SetParamValue(cmd, "@RecipeId", id);
-            //string sql = "delete recipe where RecipeId = " + id;
-           SQLUtility.ExecuteSQL(cmd);
+            SQLUtility.ExecuteSQL(cmd);
+        }
+
+        public static void CloneRecipe(int baserecipeid)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CloneRecipe");
+            SQLUtility.SetParamValue(cmd, "@BaseRecipeId", baserecipeid);
+            SQLUtility.ExecuteSQL(cmd);
+        }
+
+        public static int NewRecipeIdGet()
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("NewRecipeIdGet");
+            cmd.Parameters["@All"].Value = 1;
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            int recipeid = Convert.ToInt16(dt.Rows[0][0]) ;
+            return recipeid;
         }
     }
 }
