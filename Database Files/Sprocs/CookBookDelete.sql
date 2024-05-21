@@ -8,6 +8,7 @@ begin
 	
 	begin try
 		begin tran
+		    delete CookBookRecipes where CookBookId = @CookBookId
 			delete CookBooks where CookBookId = @CookBookId
 		commit
 	end try
@@ -31,6 +32,3 @@ go
 
 --select * from cookbooks c where c.cookbookid = 67
 
-delete CookBooks where CookBookId = 1
-
-select * from cookbooks

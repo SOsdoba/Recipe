@@ -6,6 +6,7 @@ as
 begin
 	declare @return int = 0
 
+	delete RecipeIngredient where MeasurementTypeId = @MeasurementTypeId
 	delete MeasurementType where MeasurementTypeId = @MeasurementTypeId
 		
 	return @return

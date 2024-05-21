@@ -184,7 +184,7 @@ namespace RecipeWinForms
             int pkvalue = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookBookId");
             if (pkvalue > 0)
             {
-                value = SQLUtility.GetValueFromFirstRowAsString(dtcookbook, "CookBookName");
+                value = "Cookbook - " + SQLUtility.GetValueFromFirstRowAsString(dtcookbook, "CookBookName");
             }
             return value;
         }

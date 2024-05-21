@@ -1,6 +1,9 @@
 ﻿using CPUWindowsFormFramework;
 using System.Data;
 using RecipeAppSystem;
+using Microsoft.VisualBasic.ApplicationServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Xml.Linq;
 
 namespace RecipeWinForms
 {
@@ -27,6 +30,12 @@ namespace RecipeWinForms
         {
             DataTable dt = Recipe.SearchRecipes();
             gRecipes.DataSource = dt;
+            gRecipes.Columns["UsersId"].Visible = false;
+            gRecipes.Columns["CuisineTypeId"].Visible = false;
+            gRecipes.Columns["DraftDate"].Visible = false;
+            gRecipes.Columns["PublishDate"].Visible = false;
+            gRecipes.Columns["ArchiveDate"].Visible = false;
+            gRecipes.Columns["IsDeleteAllowed"].Visible = false;
         }
 
         private void ShowRecipeForm(int rowindex)

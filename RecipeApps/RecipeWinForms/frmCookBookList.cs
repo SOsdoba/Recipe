@@ -1,14 +1,6 @@
 ﻿using CPUWindowsFormFramework;
 using RecipeAppSystem;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace RecipeWinForms
 {
@@ -34,6 +26,10 @@ namespace RecipeWinForms
             DataTable dt = CookBooks.SearchCookBooks();
             gCookBooks.DataSource = dt;
             gCookBooks.Columns["CookBookId"].Visible = false;
+            gCookBooks.Columns["UsersId"].Visible = false;
+            gCookBooks.Columns["CookBookActive"].Visible = false;
+            gCookBooks.Columns["DateBookCreated"].Visible = false;
+            gCookBooks.Columns["IsDeleteAllowed"].Visible = false;
         }
 
         private void ShowCookBookForm(int rowindex)

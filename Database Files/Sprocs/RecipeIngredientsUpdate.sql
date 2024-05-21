@@ -3,7 +3,7 @@ create or alter procedure dbo.RecipeIngredientsUpdate(
 	@RecipeId int,
 	@IngredientId int,
 	@MeasurementTypeId int,
-	@Amount decimal,
+	@Amount decimal (4,2),
 	@IngredientSequence int,
 	@Message varchar(500) = '' output
 )

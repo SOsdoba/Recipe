@@ -12,9 +12,9 @@ begin
 
 	if @CourseId = 0
 	begin
-		select @CourseId = SCOPE_IDENTITY()
 		insert Course(CourseType, CourseSequence)
 		values(@CourseType, @CourseSequence)
+		select @CourseId = SCOPE_IDENTITY()
 	end
 	else
 	begin 

@@ -1,6 +1,7 @@
 create or alter procedure dbo.MeasurementTypeGet(
 	@MeasurementTypeId int = 0, 
 	@All bit = 0, 
+	@IncludeBlank bit = 0,
 	@Message varchar(500) = '' output
 )
 
@@ -14,6 +15,9 @@ begin
 	from MeasurementType m
 	where MeasurementTypeid = @MeasurementTypeId
 	or @All = 1
+	union select 0, ' '
+	where @IncludeBlank = 1
+	order by m.measurementtype
 
 	return @return
 end

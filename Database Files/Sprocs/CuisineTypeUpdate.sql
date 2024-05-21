@@ -11,9 +11,11 @@ begin
 
 	if @CuisineTypeId = 0
 	begin
-		select @cuisinetypeid= SCOPE_IDENTITY()
+		
 		insert CuisineType(CuisineType)
 		values(@CuisineType)
+		select @cuisinetypeid= SCOPE_IDENTITY()
+
 	end
 	else
 	begin 

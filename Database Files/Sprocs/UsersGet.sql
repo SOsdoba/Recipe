@@ -3,7 +3,7 @@ go
 create or alter procedure dbo.UsersGet(@UsersId int = 0, @UserName varchar(50) = '', @All bit = 0, @IncludeBlank bit = 0)
 as 
 begin
-	select u.usersid, FirstName = u.firstname, LastName = u.lastname, UserName = u.username
+	select u.usersid, u.FirstName, u.LastName, u.Username
 	from users u
 	where u.usersid = @UsersId
 	or (@UserName <> '' and u.username like '%' + @UserName + '%')

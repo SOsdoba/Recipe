@@ -13,4 +13,4 @@ begin
 end 
 go
 
-exec DashboardGet
+--exec DashboardGet

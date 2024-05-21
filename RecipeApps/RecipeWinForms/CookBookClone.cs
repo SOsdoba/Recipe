@@ -24,8 +24,8 @@ namespace RecipeWinForms
             Cursor = Cursors.WaitCursor;
             try
             {
-                CookBooks.CloneCookBook(usersid);
-                int newcookbookid = CookBooks.NewCookBookIdGet();
+                int newcookbookid = CookBooks.CloneCookBook(usersid);
+
                 if (this.MdiParent != null && this.MdiParent is frmMain)
                 {
                     ((frmMain)this.MdiParent).OpenForm(typeof(frmCookBook), newcookbookid);

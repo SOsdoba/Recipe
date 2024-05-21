@@ -1,4 +1,5 @@
 ﻿using CPUWindowsFormFramework;
+using Microsoft.VisualBasic.ApplicationServices;
 using RecipeAppSystem;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace RecipeWinForms
 {
@@ -28,6 +30,8 @@ namespace RecipeWinForms
             DataTable dt = Meals.SearchMeals();
             gMeals.DataSource = dt;
             gMeals.Columns["MealId"].Visible = false;
+            gMeals.Columns["MealActive"].Visible = false;
+            gMeals.Columns["DateMealCreated"].Visible = false;
         }
 
         private void ShowMealForm(int rowindex)

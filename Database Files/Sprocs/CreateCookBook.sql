@@ -8,7 +8,7 @@ begin
 	declare @return int = 0
 	
 		insert CookBooks(UsersId, CookBookName, Price)
-		select @UsersId, CookBookName = concat('Recipes by ', u.firstname, ' ', u.lastname), Price = count(r.RecipeId) * 1.33
+		select u.UsersId, CookBookName = concat('Recipes by ', u.firstname, ' ', u.lastname), Price = count(r.RecipeId) * 1.33
 		from users u
 		left join recipe r
 		on r.UsersId = u.UsersId
@@ -20,12 +20,8 @@ begin
 		insert CookBookRecipes(CookBookId, RecipeId, CookBookRecipeSequence)
 		select @Cookbookid, r.RecipeId, 
 			CookBookRecipeSequence = ROW_NUMBER() over (order by r.recipename)
-		from users u
-		left join Recipe r
-		on r.UsersId = u.UsersId
-		left join CookBookRecipes cr
-		on cr.RecipeId = r.RecipeId
-		where u.UsersId = @UsersId
+		from Recipe r
+		where r.usersid = @UsersId
 		group by r.recipeid, r.recipename
 						
 	return @return

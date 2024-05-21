@@ -4,29 +4,12 @@ create or alter procedure dbo.CourseTypeDelete(
 )
 as 
 begin
-	declare @return int = 0, @deleteallowed varchar (60)
+	declare @return int = 0
 
-	select @deleteallowed = isnull(dbo.isdeleteallowed(@CourseId), '')
-
-	if @deleteallowed <> ''
-	begin
-		select @return = 1, @Message = @deleteallowed 
-		goto finished
-	end
-
-	begin try
-		begin tran
-			delete Course where CourseId = @CourseId
-		commit
-	end try
-	begin catch
-		rollback;
-		throw
-	end catch
-
-	finished:
+	delete MealCourseRecipes from MealCourseRecipes mcr join MealCourse mc on mc.mealcourseid = mcr.mealcourseid where mc.CourseId = @CourseId
+	delete MealCourse from MealCourse mc  where mc.CourseId = @CourseId	
+	delete Course where CourseId = @CourseId
+	
 	return @return
 end 
 go
-
-

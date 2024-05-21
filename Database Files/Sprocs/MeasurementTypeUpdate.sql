@@ -11,9 +11,11 @@ begin
 
 	if @MeasurementTypeId = 0
 	begin
-		select @MeasurementTypeId = SCOPE_IDENTITY()
+		
 		insert MeasurementType(MeasurementType)
 		values(@MeasurementType)
+		select @MeasurementTypeId = SCOPE_IDENTITY()
+
 	end
 	else
 	begin 

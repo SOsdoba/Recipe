@@ -17,7 +17,7 @@ namespace RecipeAppSystem
         {
             DataTable dt = new();
 
-            SqlCommand cmd = SQLUtility.GetSQLCommand("MealListGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("MealGet");
             cmd.Parameters["@All"].Value = 1;
 
             dt = SQLUtility.GetDataTable(cmd);

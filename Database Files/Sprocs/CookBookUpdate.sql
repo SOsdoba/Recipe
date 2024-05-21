@@ -2,7 +2,7 @@ create or alter proc dbo.CookBookUpdate(
 	@CookBookid int output,
 	@CookBookName varchar(50),
 	@UsersId int, 
-	@Price int,
+	@Price decimal(5,2),
 	@DateBookCreated datetime output,
 	@CookBookActive bit = 0,
 	@Message varchar (500) = '' output

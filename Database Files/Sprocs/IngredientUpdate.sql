@@ -11,9 +11,11 @@ begin
 
 	if @Ingredientid = 0
 	begin
-		select @Ingredientid= SCOPE_IDENTITY()
+		
 		insert Ingredient(IngredientName)
 		values(@IngredientName)
+		select @Ingredientid= SCOPE_IDENTITY()
+
 	end
 	else
 	begin 

@@ -89,7 +89,10 @@ create table dbo.Recipe (
         constraint ck_Recipe_PublishDate_cannot_be_in_the_future check(publishdate <= getdate()),
         constraint ck_Recipe_ArchiveDate_cannot_be_in_the_future check(archivedate <= getdate())
 )
-go 
+go
+alter table Recipe drop constraint if exists ck_Recipe_PublishDate_must_be_before_Archivedate;
+go
+alter table Recipe ADD CONSTRAINT ck_Recipe_PublishDate_must_be_before_Archivedate check(archivedate > publishdate)
 go
 alter table Recipe drop column if exists RecipeStatus
 go 
@@ -99,7 +102,6 @@ alter table Recipe add RecipeStatus as case
         when PublishDate > DraftDate and ArchiveDate is null then 'Published'
         when ArchiveDate > PublishDate and ArchiveDate > DraftDate then 'Archived'
         when ArchiveDate > DraftDate and PublishDate is null then 'Archived'
-        when PublishDate > ArchiveDate then 'Published'
         end persisted
 go
 

@@ -56,6 +56,8 @@ namespace RecipeWinForms
             Application.UseWaitCursor = true;
             try
             {
+                dtrecipe.Rows[0]["Archivedate"] = DBNull.Value;
+                txtArchiveDate.Text = null;
                 txtPublishDate.Text = DateTime.Now.ToString();
                 Recipe.Save(dtrecipe);
                 recipeid = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");
@@ -84,6 +86,7 @@ namespace RecipeWinForms
             try
             {
                 dtrecipe.Rows[0]["publishdate"] = DBNull.Value;
+                dtrecipe.Rows[0]["archivedate"] = DBNull.Value;
                 txtDraftDate.Text = DateTime.Now.ToString();
                 Recipe.Save(dtrecipe);
                 recipeid = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");

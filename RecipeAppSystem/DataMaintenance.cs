@@ -33,11 +33,7 @@ namespace RecipeAppSystem
         public static void DeleteRow(string tablename, int id)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand(tablename + "Delete");
-            if(tablename == "Users")
-            {
-                cmd = SQLUtility.GetSQLCommand("UserAndRelatedRecordsDelete");
-            }
-            else if(tablename == "CourseType")
+            if(tablename == "CourseType")
             {
                 tablename = "Course";
             }

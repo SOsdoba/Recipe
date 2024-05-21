@@ -9,8 +9,7 @@ namespace RecipeAppSystem
         public static DataTable SearchRecipes()
         {
             DataTable dt = new();
-
-            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeListGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeGet");
             cmd.Parameters["@All"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
@@ -58,28 +57,21 @@ namespace RecipeAppSystem
             SQLUtility.SaveDataRow(r, "RecipeUpdate");
         }
 
+        public static int CloneRecipe(int baserecipeid)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CloneRecipe");
+            SQLUtility.SetParamValue(cmd, "@BaseRecipeId", baserecipeid); 
+            SQLUtility.ExecuteSQL(cmd);
+            int newrecipeid = (int)cmd.Parameters["@RecipeId"].Value;
+            return newrecipeid;
+        }
+
         public static void Delete(DataTable dtrecipes)
         {
             int id = (int)dtrecipes.Rows[0]["RecipeId"];
             SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeDelete");
             SQLUtility.SetParamValue(cmd, "@RecipeId", id);
             SQLUtility.ExecuteSQL(cmd);
-        }
-
-        public static void CloneRecipe(int baserecipeid)
-        {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("CloneRecipe");
-            SQLUtility.SetParamValue(cmd, "@BaseRecipeId", baserecipeid);
-            SQLUtility.ExecuteSQL(cmd);
-        }
-
-        public static int NewRecipeIdGet()
-        {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("NewRecipeIdGet");
-            cmd.Parameters["@All"].Value = 1;
-            DataTable dt = SQLUtility.GetDataTable(cmd);
-            int recipeid = Convert.ToInt16(dt.Rows[0][0]) ;
-            return recipeid;
         }
     }
 }

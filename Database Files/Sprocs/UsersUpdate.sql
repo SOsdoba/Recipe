@@ -13,9 +13,11 @@ begin
 
 	if @Usersid = 0
 	begin
-		select @Usersid= SCOPE_IDENTITY()
+		
 		insert Users(FirstName, LastName, UserName)
 		values(@FirstName, @LastName, @UserName)
+		select @Usersid= SCOPE_IDENTITY()
+
 	end
 	else
 	begin 

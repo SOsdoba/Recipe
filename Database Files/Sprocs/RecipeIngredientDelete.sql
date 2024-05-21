@@ -11,7 +11,7 @@ begin
 	return @return
 end
 go
-
+/*
 exec RecipeIngredientDelete
 @RecipeIngredientId = 641,
 @Message = null
@@ -21,4 +21,4 @@ from recipe r
 join RecipeIngredient i
 on i.RecipeId = r.RecipeId
 where i.recipeingredientid = 641
-
+*/

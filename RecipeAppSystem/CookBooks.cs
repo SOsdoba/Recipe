@@ -10,9 +10,8 @@ namespace RecipeAppSystem
         {
             DataTable dt = new();
 
-            SqlCommand cmd = SQLUtility.GetSQLCommand("CookBookListGet");
+            SqlCommand cmd = SQLUtility.GetSQLCommand("CookBookGet");
             cmd.Parameters["@All"].Value = 1;
-
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
@@ -52,11 +51,13 @@ namespace RecipeAppSystem
             SQLUtility.ExecuteSQL(cmd);
         }
 
-        public static void CloneCookBook(int usersid)
+        public static int CloneCookBook(int usersid)
         {
             SqlCommand cmd = SQLUtility.GetSQLCommand("CreateCookBook");
             SQLUtility.SetParamValue(cmd, "@UsersId", usersid);
             SQLUtility.ExecuteSQL(cmd);
+            int newcookbookid = (int)cmd.Parameters["@CookBookId"].Value;
+            return newcookbookid;
         }
         public static int NewCookBookIdGet()
         {

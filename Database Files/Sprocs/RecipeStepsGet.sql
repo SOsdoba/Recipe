@@ -8,10 +8,8 @@ as
 begin
 	declare @return int = 0
 
-	select r.recipeid, Direction = d.Direction, Sequence = d.SequenceOfDirections, d.directionsid
+	select d.Recipeid, d.Direction, Sequence = d.SequenceOfDirections, d.directionsid
 	from directions d
-	join Recipe r
-	on r.recipeid = d.recipeid
 	where @recipeid = d.recipeid
 	or @All = 1
 	order by d.sequenceofdirections

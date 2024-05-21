@@ -23,10 +23,11 @@ begin
 		select @RecipeId, ri.IngredientId, ri.MeasurementTypeId, ri.Amount, ri.SequenceOfIngredients
 		from RecipeIngredient ri
 		where ri.recipeid = @BaseRecipeId
-	
+	  
 	return @return
 end
 go
+
 
 --declare
 --	@RecipeId int,

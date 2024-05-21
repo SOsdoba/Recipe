@@ -96,7 +96,7 @@
             this.gRecipes.Size = new System.Drawing.Size(692, 511);
             this.gRecipes.TabIndex = 0;
             // 
-            // frmSearch
+            // frmRecipeList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -104,8 +104,8 @@
             this.Controls.Add(this.tblMain);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "frmSearch";
-            this.Text = "Recipe";
+            this.Name = "frmRecipeList";
+            this.Text = "Recipe List";
             this.tblMain.ResumeLayout(false);
             this.tblMain.PerformLayout();
             this.tblSearch.ResumeLayout(false);

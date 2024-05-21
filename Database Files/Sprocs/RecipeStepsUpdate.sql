@@ -14,7 +14,7 @@ begin
 	if @DirectionsId = 0
 	begin
 		insert Directions(RecipeId, Direction, SequenceOfDirections)
-		values (@RecipeId, @Direction, @Sequence)
+		values (@RecipeId, @Direction,  @Sequence)
 
 		select @Directionsid = SCOPE_IDENTITY()
 	end

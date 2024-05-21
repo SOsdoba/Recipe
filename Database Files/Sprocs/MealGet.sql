@@ -7,7 +7,8 @@ create or alter procedure dbo.MealGet(
 )
 as
 begin
-	select m.mealid, MealName = m.mealname, Creator = concat(u.firstname, ' ' , u.lastname), NumCalories = sum(r.calories), NumCourses = count(distinct mc.CourseId), NumRecipes = count(distinct mcr.RecipeId), m.mealactive, m.datemealcreated
+
+	select m.mealid, m.MealName, Creator = concat(u.firstname, ' ' , u.lastname), NumCalories = sum(r.calories), NumCourses = count(distinct mc.CourseId), NumRecipes = count(distinct mcr.RecipeId), m.mealactive, m.datemealcreated
 	from meal m
 	join users u
 	on u.usersid = m.usersid

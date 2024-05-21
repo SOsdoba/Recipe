@@ -11,7 +11,7 @@ begin
 
 	select @All = isnull(@All,0), @IngredientId = isnull(@IngredientId,0), @IncludeBlank = isnull(@IncludeBlank,0)
 
-	select i.ingredientid, IngredientName = i.ingredientname
+	select i.ingredientid, i.ingredientname
 	from Ingredient i
 	where Ingredientid = @IngredientId
 	or @All = 1

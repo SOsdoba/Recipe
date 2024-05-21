@@ -13,6 +13,7 @@ namespace RecipeWinForms
         BindingSource bindsource = new();
         int recipeid = 0;
         string deletecolname = "deletecol";
+        bool formactivated = false;
 
         public frmRecipe()
         {
@@ -31,11 +32,12 @@ namespace RecipeWinForms
 
          public void FrmRecipe_Activated(object? sender, EventArgs e)
         {
-            if(recipeid > 0)
+            if(formactivated == true)
             {
                 dtrecipe = Recipe.Load(recipeid);
                 bindsource.DataSource = dtrecipe;
             }
+            formactivated = true;
         }
 
         private void FrmRecipe_Shown(object? sender, EventArgs e)
@@ -66,7 +68,6 @@ namespace RecipeWinForms
             WindowsFormsUtility.SetControlBindings(txtRecipeStatus, bindsource);
             this.Text = GetRecipeDesc();
             SetButtonsEnabledBasedOnNewRecord();
-
         }
 
         private void LoadRecipeIngredient()
@@ -75,7 +76,7 @@ namespace RecipeWinForms
             gIngredients.Columns.Clear();
             gIngredients.DataSource = dtrecipeingredient;
             WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient", 1), "Ingredient", "IngredientName");
-            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasurementType", 0), "MeasurementType", "MeasurementType");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("MeasurementType", 1), "MeasurementType", "MeasurementType");
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
             WindowsFormsUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
             gIngredients.Columns["MeasurementTypeId"].Visible = false;
@@ -87,8 +88,8 @@ namespace RecipeWinForms
             gSteps.Columns.Clear();
             gSteps.DataSource = dtrecipesteps;
             WindowsFormsUtility.AddDeleteButtonToGrid(gSteps, deletecolname);
-            gSteps.Columns["DirectionsId"].Visible = false;
             WindowsFormsUtility.FormatGridForEdit(gSteps, "RecipeSteps");
+            gSteps.Columns["DirectionsId"].Visible = false;
             gSteps.Columns["RecipeId"].Visible = false;
         }
 
@@ -116,7 +117,7 @@ namespace RecipeWinForms
             }
             return b;
         }
-
+       
         private void Delete()
         {
             string alloweddelete = SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "IsDeleteAllowed");
@@ -151,7 +152,6 @@ namespace RecipeWinForms
             try
             {
                 RecipeIngredientsandSteps.SaveTable(dtrecipeingredient, recipeid, "RecipeIngredientsUpdate");
-                LoadRecipeIngredient();
             }
             catch (Exception ex)
             {
@@ -164,7 +164,6 @@ namespace RecipeWinForms
             try
             {
                 RecipeIngredientsandSteps.SaveTable(dtrecipesteps, recipeid, "RecipeStepsUpdate");
-                LoadRecipeSteps();
             }
             catch (Exception ex)
             {
@@ -252,7 +251,7 @@ namespace RecipeWinForms
             int pkvalue = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");
             if (pkvalue > 0)
             {
-                value = SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "RecipeName");
+                value = "Recipe - " + SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "RecipeName");
             }
             return value;
         }

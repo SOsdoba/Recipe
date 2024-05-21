@@ -94,7 +94,7 @@
             // 
             this.mnuRecipesList.Name = "mnuRecipesList";
             this.mnuRecipesList.Size = new System.Drawing.Size(182, 26);
-            this.mnuRecipesList.Text = "List";
+            this.mnuRecipesList.Text = "Recipe List";
             // 
             // mnuNewRecipe
             // 

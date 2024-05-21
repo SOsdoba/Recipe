@@ -1,10 +1,14 @@
-﻿using CPUWindowsFormFramework;
+﻿using CPUFramework;
+using CPUWindowsFormFramework;
 using RecipeAppSystem;
+using System.Data;
 
 namespace RecipeWinForms
 {
     public partial class frmRecipeClone : Form
     {
+        DataTable dtnewrecipe = new();
+
         public frmRecipeClone()
         {
             InitializeComponent();
@@ -24,8 +28,8 @@ namespace RecipeWinForms
             Cursor = Cursors.WaitCursor;
             try
             {
-                Recipe.CloneRecipe(baserecipeid);
-                int newrecipeid = Recipe.NewRecipeIdGet();
+                int newrecipeid = Recipe.CloneRecipe(baserecipeid);
+               
                 if (this.MdiParent != null && this.MdiParent is frmMain)
                 {
                     ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipe), newrecipeid);
