@@ -207,7 +207,12 @@ namespace RecipeWinForms
         private void GCookBookRecipes_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             string columnname = gCookBookRecipes.Columns[e.ColumnIndex].Name;
-            if (columnname == deletecolname)
+
+            if (gCookBookRecipes.Rows[e.RowIndex].IsNewRow == true)
+            {
+                gCookBookRecipes.Columns[e.ColumnIndex].ReadOnly = true;
+            }
+            else if (columnname == deletecolname && gCookBookRecipes.Rows[e.RowIndex].IsNewRow != true)
             {
                 DeleteCookBookRecipes(e.RowIndex);
             }

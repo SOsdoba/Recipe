@@ -293,7 +293,12 @@ namespace RecipeWinForms
         private void GIngredients_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             string columnname = gIngredients.Columns[e.ColumnIndex].Name;
-            if(columnname == deletecolname)
+
+            if (gIngredients.Rows[e.RowIndex].IsNewRow == true)
+            {
+                gIngredients.Columns[e.ColumnIndex].ReadOnly = true;
+            }
+            else if (columnname == deletecolname && gIngredients.Rows[e.RowIndex].IsNewRow != true)
             {
                 DeleteRecipeIngredient(e.RowIndex);
             }
@@ -302,10 +307,16 @@ namespace RecipeWinForms
         private void GSteps_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             string columnname = gSteps.Columns[e.ColumnIndex].Name;
-            if (columnname == deletecolname)
+            
+            if (gSteps.Rows[e.RowIndex].IsNewRow == true)
+            {
+                gSteps.Columns[e.ColumnIndex].ReadOnly = true;
+            }
+            else if (columnname == deletecolname && gSteps.Rows[e.RowIndex].IsNewRow != true)
             {
                 DeleteRecipeSteps(e.RowIndex);
             }
+
         }
     }
 }
