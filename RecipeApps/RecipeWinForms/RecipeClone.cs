@@ -18,7 +18,7 @@ namespace RecipeWinForms
 
         private void BindData()
         {
-            WindowsFormsUtility.SetListBinding(cmbRecipeName, DataMaintenance.GetDataList("RecipeList", 0), null, "Recipe");
+            WindowsFormsUtility.SetListBinding(cmbRecipeName, DataMaintenance.GetDataList("Recipe", 0), null, "Recipe");
         }
 
         private void CloneRecipe()

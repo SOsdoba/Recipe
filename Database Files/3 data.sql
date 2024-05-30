@@ -82,7 +82,6 @@ union select 'oz'
 union select 'clove'
 union select 'pinch'
 union select 'stick'
-union select '' 
 
 ; with x as (
    select RecipeName = 'Chocolate Chip Cookies', IngredientName = 'Sugar', MeasurementType = 'Cup', Amount = 1, SequenceOfIngredients = 1
