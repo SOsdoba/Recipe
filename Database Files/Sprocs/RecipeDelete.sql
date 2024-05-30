@@ -4,13 +4,14 @@ create or alter procedure dbo.RecipeDelete(
 )
 as 
 begin
-	declare @return int = 0, @deleteallowed varchar(60)
+	declare @return int = 0
 
-	select @deleteallowed = isnull(dbo.isdeleteallowed(@recipeid), '')
-
-	if @deleteallowed <> ''
+	if exists (select * from recipe r where 
+					(r.RecipeStatus = 'Published' 
+					or datediff(day, r.archivedate, getdate()) < 30) 
+					and r.recipeid = @RecipeId)
 	begin
-		select @return = 1, @Message = @deleteallowed
+		select @return = 1, @Message = 'Cannot delete recipe that is published, or archived for less than 30 days.'
 		goto finished
 	end
 
