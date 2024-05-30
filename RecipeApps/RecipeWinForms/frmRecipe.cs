@@ -28,9 +28,12 @@ namespace RecipeWinForms
             gSteps.CellContentClick += GSteps_CellContentClick;
             gIngredients.CellContentClick += GIngredients_CellContentClick;
             this.Shown += FrmRecipe_Shown;
+            txtCalories.KeyPress += TxtCalories_KeyPress;
+            gSteps.EditingControlShowing += GSteps_EditingControlShowing;
+            gIngredients.EditingControlShowing += GIngredients_EditingControlShowing;
         }
 
-         public void FrmRecipe_Activated(object? sender, EventArgs e)
+        public void FrmRecipe_Activated(object? sender, EventArgs e)
         {
             if(formactivated == true)
             {
@@ -91,6 +94,7 @@ namespace RecipeWinForms
             WindowsFormsUtility.FormatGridForEdit(gSteps, "RecipeSteps");
             gSteps.Columns["DirectionsId"].Visible = false;
             gSteps.Columns["RecipeId"].Visible = false;
+            
         }
 
         private bool Save()
@@ -120,12 +124,6 @@ namespace RecipeWinForms
        
         private void Delete()
         {
-            string alloweddelete = SQLUtility.GetValueFromFirstRowAsString(dtrecipe, "IsDeleteAllowed");
-            if (alloweddelete != "")
-            {
-                MessageBox.Show(alloweddelete, Application.ProductName);
-                return;
-            }
             var response = MessageBox.Show("Are you sure you want to delete this recipe?", Application.ProductName, MessageBoxButtons.YesNo);
             if (response == DialogResult.No)
             {
@@ -294,29 +292,87 @@ namespace RecipeWinForms
         {
             string columnname = gIngredients.Columns[e.ColumnIndex].Name;
 
-            if (gIngredients.Rows[e.RowIndex].IsNewRow == true)
+            if(e.RowIndex > -1)
             {
-                gIngredients.Columns[e.ColumnIndex].ReadOnly = true;
-            }
-            else if (columnname == deletecolname && gIngredients.Rows[e.RowIndex].IsNewRow != true)
-            {
-                DeleteRecipeIngredient(e.RowIndex);
+                if (gIngredients.Rows[e.RowIndex].IsNewRow == true)
+                {
+                    gIngredients.Columns[e.ColumnIndex].ReadOnly = true;
+                }
+                else if (columnname == deletecolname && gIngredients.Rows[e.RowIndex].IsNewRow != true)
+                {
+                    DeleteRecipeIngredient(e.RowIndex);
+                }
             }
         }
 
         private void GSteps_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             string columnname = gSteps.Columns[e.ColumnIndex].Name;
-            
-            if (gSteps.Rows[e.RowIndex].IsNewRow == true)
+           
+            if(e.RowIndex > -1)
             {
-                gSteps.Columns[e.ColumnIndex].ReadOnly = true;
+                if (gSteps.Rows[e.RowIndex].IsNewRow == true)
+                {
+                    gSteps.Columns[e.ColumnIndex].ReadOnly = true;
+                }
+                else if ((e.RowIndex > -1) && columnname == deletecolname && gSteps.Rows[e.RowIndex].IsNewRow != true)
+                {
+                    DeleteRecipeSteps(e.RowIndex);
+                }
             }
-            else if (columnname == deletecolname && gSteps.Rows[e.RowIndex].IsNewRow != true)
-            {
-                DeleteRecipeSteps(e.RowIndex);
-            }
-
         }
+
+        private void GIngredients_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (gIngredients.CurrentCell.ColumnIndex == 6)
+            {
+                e.Control.KeyPress -= new KeyPressEventHandler(Amount_KeyPress);
+                TextBox t = e.Control as TextBox;
+                t.KeyPress += new KeyPressEventHandler(Amount_KeyPress);
+            }
+            else if (gIngredients.CurrentCell.ColumnIndex == 7)
+            {
+                e.Control.KeyPress -= new KeyPressEventHandler(Sequence_KeyPress);
+                TextBox t = e.Control as TextBox;
+                t.KeyPress += new KeyPressEventHandler(Sequence_KeyPress);
+            }
+        }
+        private void Amount_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
+            }
+        }
+
+        private void GSteps_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= new KeyPressEventHandler(Sequence_KeyPress);
+            if (gSteps.CurrentCell.ColumnIndex == 3)
+            {
+                TextBox t = e.Control as TextBox;
+                t.KeyPress += new KeyPressEventHandler(Sequence_KeyPress);
+            }
+        }
+
+        private void Sequence_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
+            }
+        }
+
+        private void TxtCalories_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
+            }
+        }
+
     }
 }

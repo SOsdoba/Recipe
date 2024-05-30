@@ -2,8 +2,6 @@
 using CPUWindowsFormFramework;
 using RecipeAppSystem;
 using System.Data;
-using System.Security.Policy;
-using System.Xml;
 
 namespace RecipeWinForms
 {
@@ -24,6 +22,8 @@ namespace RecipeWinForms
             btnSaveCookBookRecipes.Click += BtnSaveCookBookRecipes_Click;
             gCookBookRecipes.CellContentClick += GCookBookRecipes_CellContentClick;
             this.Shown += FrmCookBook_Shown;
+            txtPrice.KeyPress += TxtPrice_KeyPress;
+            gCookBookRecipes.EditingControlShowing += GCookBookRecipes_EditingControlShowing;
         }
 
         private void FrmCookBook_Shown(object? sender, EventArgs e)
@@ -208,13 +208,44 @@ namespace RecipeWinForms
         {
             string columnname = gCookBookRecipes.Columns[e.ColumnIndex].Name;
 
-            if (gCookBookRecipes.Rows[e.RowIndex].IsNewRow == true)
+            if(e.RowIndex > -1)
             {
-                gCookBookRecipes.Columns[e.ColumnIndex].ReadOnly = true;
+                if (gCookBookRecipes.Rows[e.RowIndex].IsNewRow == true)
+                {
+                    gCookBookRecipes.Columns[e.ColumnIndex].ReadOnly = true;
+                }
+                else if (columnname == deletecolname && gCookBookRecipes.Rows[e.RowIndex].IsNewRow != true)
+                {
+                    DeleteCookBookRecipes(e.RowIndex);
+                }
             }
-            else if (columnname == deletecolname && gCookBookRecipes.Rows[e.RowIndex].IsNewRow != true)
+        }
+
+        private void TxtPrice_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
-                DeleteCookBookRecipes(e.RowIndex);
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
+            }
+        }
+
+        private void GCookBookRecipes_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= new KeyPressEventHandler(Sequence_KeyPress);
+            if (gCookBookRecipes.CurrentCell.ColumnIndex == 4)
+            {
+                TextBox t = e.Control as TextBox;
+                t.KeyPress += new KeyPressEventHandler(Sequence_KeyPress);
+            }
+        }
+
+        private void Sequence_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
             }
         }
     }

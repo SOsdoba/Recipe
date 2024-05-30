@@ -1,9 +1,6 @@
 ﻿using CPUWindowsFormFramework;
 using System.Data;
 using RecipeAppSystem;
-using Microsoft.VisualBasic.ApplicationServices;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Xml.Linq;
 
 namespace RecipeWinForms
 {
@@ -35,7 +32,6 @@ namespace RecipeWinForms
             gRecipes.Columns["DraftDate"].Visible = false;
             gRecipes.Columns["PublishDate"].Visible = false;
             gRecipes.Columns["ArchiveDate"].Visible = false;
-            gRecipes.Columns["IsDeleteAllowed"].Visible = false;
         }
 
         private void ShowRecipeForm(int rowindex)
@@ -44,10 +40,10 @@ namespace RecipeWinForms
             if(rowindex > -1)
             {
                 id = WindowsFormsUtility.GetIdFromGrid(gRecipes, rowindex, "RecipeId");
-            }
-            if(this.MdiParent != null && this.MdiParent is frmMain)
-            {
-                ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipe), id);
+                if (this.MdiParent != null && this.MdiParent is frmMain)
+                {
+                    ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipe), id);
+                }
             }
         }
 

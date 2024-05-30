@@ -53,6 +53,7 @@
             // 
             this.optUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.optUserName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.optUserName.FormattingEnabled = true;
             this.optUserName.Location = new System.Drawing.Point(80, 40);
             this.optUserName.Margin = new System.Windows.Forms.Padding(80, 40, 80, 3);

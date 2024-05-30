@@ -29,7 +29,6 @@ namespace RecipeWinForms
             gCookBooks.Columns["UsersId"].Visible = false;
             gCookBooks.Columns["CookBookActive"].Visible = false;
             gCookBooks.Columns["DateBookCreated"].Visible = false;
-            gCookBooks.Columns["IsDeleteAllowed"].Visible = false;
         }
 
         private void ShowCookBookForm(int rowindex)
@@ -38,10 +37,10 @@ namespace RecipeWinForms
             if (rowindex > -1)
             {
                 id = WindowsFormsUtility.GetIdFromGrid(gCookBooks, rowindex, "CookBookId");
-            }
-            if (this.MdiParent != null && this.MdiParent is frmMain)
-            {
-                ((frmMain)this.MdiParent).OpenForm(typeof(frmCookBook), id);
+                if (this.MdiParent != null && this.MdiParent is frmMain)
+                {
+                    ((frmMain)this.MdiParent).OpenForm(typeof(frmCookBook), id);
+                }
             }
         }
 

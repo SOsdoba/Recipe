@@ -1,17 +1,6 @@
 ﻿using CPUWindowsFormFramework;
-using Microsoft.VisualBasic.ApplicationServices;
 using RecipeAppSystem;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace RecipeWinForms
 {
@@ -36,14 +25,14 @@ namespace RecipeWinForms
 
         private void ShowMealForm(int rowindex)
         {
-            int id = 0;
-            if(rowindex > -1)
+            int id = 0;           
+            if (rowindex > -1)
             {
                 id = WindowsFormsUtility.GetIdFromGrid(gMeals, rowindex, "MealId");
-            }
-            if (this.MdiParent != null && this.MdiParent is frmMain)
-            {
-                ((frmMain)this.MdiParent).OpenForm(typeof(frmMeal), id);
+                if (this.MdiParent != null && this.MdiParent is frmMain)
+                {
+                    ((frmMain)this.MdiParent).OpenForm(typeof(frmMeal), id);
+                }
             }
         }
 

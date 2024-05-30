@@ -20,6 +20,26 @@ namespace RecipeWinForms
             gData.CellContentClick += GData_CellContentClick;
             SetupRadioButtons();
             BindData(currenttabletype);
+            gData.EditingControlShowing += GData_EditingControlShowing;
+        }
+
+        private void GData_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            e.Control.KeyPress -= new KeyPressEventHandler(Sequence_KeyPress);
+            if (currenttabletype.ToString() == "CourseType" && gData.CurrentCell.ColumnIndex == 2)
+            {
+                TextBox t = e.Control as TextBox;
+                t.KeyPress += new KeyPressEventHandler(Sequence_KeyPress);
+            }
+        }
+
+        private void Sequence_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only a numeric value can be inserted.");
+            }
         }
 
         private void BindData(TableTypeEnum tabletype)
@@ -61,21 +81,37 @@ namespace RecipeWinForms
                 rowid = "CourseId";
             }
             int id = WindowsFormsUtility.GetIdFromGrid(gData, rowIndex, rowid);
-            if(id != 0)
+            if(id > 0)
             {
-                try
+                string recordtype = currenttabletype.ToString();
+                string message = $"Do you want to delete this {recordtype}?";
+                if (currenttabletype.ToString() == "Users")
                 {
-                    DataMaintenance.DeleteRow(currenttabletype.ToString(), id);
-                    BindData(currenttabletype);
+                    message = "Are you sure you want to delete this user and all related recipes, meals, and cookbooks?";
                 }
-                catch (Exception ex)
+                var response = MessageBox.Show(message, Application.ProductName, MessageBoxButtons.YesNoCancel);
+
+                switch (response)
                 {
-                    MessageBox.Show(ex.Message, Application.ProductName);
+                    case DialogResult.Yes:
+                        try
+                        {
+                            DataMaintenance.DeleteRow(currenttabletype.ToString(), id);
+                            BindData(currenttabletype);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, Application.ProductName);
+                        }
+                        break;
+                    case DialogResult.Cancel:
+                        this.Activate();
+                        break;
                 }
             }
-            else if(id == 0 && rowIndex < gData.Rows.Count)
+            else if(id < gData.Rows.Count)
             {
-                gData.Rows.Remove(gData.Rows[rowIndex]);
+                gData.Rows.RemoveAt(rowIndex);
             }
         }
 
@@ -129,29 +165,20 @@ namespace RecipeWinForms
         {
             Save();
         }
-
+        
         private void GData_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            if (gData.Columns[e.ColumnIndex].Name == deletecolname)
+            if(e.RowIndex > -1)
             {
-                string recordtype = currenttabletype.ToString();
-                string message = $"Do you want to delete this {recordtype}?";
-                if (currenttabletype.ToString() == "Users")
+                if (gData.Rows[e.RowIndex].IsNewRow == true)
                 {
-                    message = "Are you sure you want to delete this user and all related recipes, meals, and cookbooks?";
+                    gData.Columns[e.ColumnIndex].ReadOnly = true;
                 }
-                var response = MessageBox.Show(message, Application.ProductName, MessageBoxButtons.YesNoCancel);
-                
-                switch (response)
+                else if (gData.Columns[e.ColumnIndex].Name == deletecolname && (gData.Rows[e.RowIndex].IsNewRow != true))
                 {
-                    case DialogResult.Yes:
-                        Delete(e.RowIndex);
-                        break;
-                    case DialogResult.Cancel:
-                        this.Activate();
-                        break;
+                    Delete(e.RowIndex); ;
                 }
-            }
+            }      
         }
     }
 }

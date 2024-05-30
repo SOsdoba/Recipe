@@ -3,7 +3,7 @@ as
 begin
 
 	select r.RecipeId, r.RecipeName, r.RecipeStatus, RecipeUser = concat(u.FirstName, ' ',u.LastName), r.Calories,
-		r.usersid, r.cuisinetypeid, r.draftdate, r.publishdate, r.archivedate, NumIngredients = count(ri.IngredientId), IsDeleteAllowed = dbo.IsDeleteAllowed(r.recipeid)
+		r.usersid, r.cuisinetypeid, r.draftdate, r.publishdate, r.archivedate, NumIngredients = count(ri.IngredientId)
 	from Recipe r
 	join users u
 	on u.usersid = r.UsersId

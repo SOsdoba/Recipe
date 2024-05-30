@@ -54,6 +54,7 @@
             // cmbRecipeName
             // 
             this.cmbRecipeName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbRecipeName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRecipeName.FormattingEnabled = true;
             this.cmbRecipeName.Location = new System.Drawing.Point(3, 33);
             this.cmbRecipeName.Name = "cmbRecipeName";

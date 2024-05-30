@@ -10,7 +10,7 @@ begin
 	
 	select @CookBookId = isnull(@CookBookId, 0)
 
-	select c.cookbookid, c.CookBookName, u.usersid, UserName = concat(u.firstname, ' ', u.LastName), NumRecipes = count(distinct r.recipeid),  c.Price, c.CookBookActive,  c.DateBookCreated, IsDeleteAllowed = dbo.IsDeleteAllowed(c.cookbookid)	
+	select c.cookbookid, c.CookBookName, u.usersid, UserName = concat(u.firstname, ' ', u.LastName), NumRecipes = count(distinct r.recipeid),  c.Price, c.CookBookActive,  c.DateBookCreated
 	from CookBooks c
 	join users u 
 	on u.Usersid = c.UsersId

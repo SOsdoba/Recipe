@@ -160,6 +160,7 @@
             // 
             this.lstCuisineType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstCuisineType.DropDownHeight = 150;
+            this.lstCuisineType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstCuisineType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstCuisineType.FormattingEnabled = true;
             this.lstCuisineType.IntegralHeight = false;
@@ -430,6 +431,7 @@
             // 
             this.lstUserName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstUserName.DropDownHeight = 100;
+            this.lstUserName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.lstUserName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstUserName.FormattingEnabled = true;
             this.lstUserName.IntegralHeight = false;

@@ -6,7 +6,7 @@ namespace RecipeAppSystem
     {
         public static void SetConnectionString(string connectionstring)
         {
-            SQLUtility.ConnectionString = connectionstring;
+            SQLUtility.RecipeConnectionString = connectionstring;
         }
     }
 }
