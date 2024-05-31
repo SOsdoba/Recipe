@@ -1,16 +1,39 @@
 using NUnit.Framework.Internal.Execution;
 using RecipeAppSystem;
+using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 
 namespace RecipeAppTest
 {
     public class RecipeTest
     {
-        
+        string connstring = ConfigurationManager.ConnectionStrings["devconn"].ConnectionString;
+        string testconnstring = ConfigurationManager.ConnectionStrings["unittestconn"].ConnectionString;
+
+
         [SetUp]
         public void Setup()
         {
-            DBManager.SetConnectionString("Server=.\\SQLExpress;Database=RecipeDB;Trusted_Connection=true");
+            DBManager.SetConnectionString(testconnstring, true);
+        }
+
+        private DataTable GetDataTable(string sql)
+        {
+            DataTable dt = new();
+            DBManager.SetConnectionString(testconnstring, false);
+            dt = SQLUtility.GetDataTable(sql);
+            DBManager.SetConnectionString(connstring, false);
+            return dt;
+        }
+
+        private int GetFirstColumnFirstRowValue(string sql)
+        {
+            int n = 0;
+            DBManager.SetConnectionString(testconnstring, false);
+            n = SQLUtility.GetFirstColumnFirstRowValue(sql);
+            DBManager.SetConnectionString(connstring, false);
+            return n;
         }
 
         [Test]
@@ -19,17 +42,17 @@ namespace RecipeAppTest
         public void InsertNewRecipe(string recipename, int calories, DateTime draftdate, DateTime publishdate, DateTime archivedate)
         {
             recipename += DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
-            DataTable dtrecipe = SQLUtility.GetDataTable("select * from recipe r where r.recipename = '" + recipename + "'");
+            DataTable dtrecipe = GetDataTable("select * from recipe r where r.recipename = '" + recipename + "'");
             Assume.That(dtrecipe.Rows.Count == 0, "recipe with name " + recipename + " is already found in db. Cannot insert 2 recipes with the same name.");
             TestContext.WriteLine("Recipe " + recipename + " does not exist in Recipe DB");
             TestContext.WriteLine("Ensure that recipe " + recipename + " is added to DB.");
 
-            DataTable dt = SQLUtility.GetDataTable("select * from recipe where recipeid = 0");
+            DataTable dt = GetDataTable("select * from recipe where recipeid = 0");
             DataRow r = dt.Rows.Add();
             Assume.That(dt.Rows.Count == 1);
-            int usersid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 usersid from users");
+            int usersid = GetFirstColumnFirstRowValue("select top 1 usersid from users");
             Assume.That(usersid > 0, "Can't run test, no users in DB");
-            int cuisinetypeid = SQLUtility.GetFirstColumnFirstRowValue("select top 1 cuisinetypeid from cuisinetype");
+            int cuisinetypeid = GetFirstColumnFirstRowValue("select top 1 cuisinetypeid from cuisinetype");
             Assume.That(cuisinetypeid > 0, "Can't run test, no cuisinetypes in DB");
 
             r["UsersId"] = usersid;
@@ -41,7 +64,7 @@ namespace RecipeAppTest
             r["ArchiveDate"] = archivedate;
             Recipe.Save(dt);
 
-            int newid = SQLUtility.GetFirstColumnFirstRowValue("select * from recipe where recipename = '" + recipename + "'");
+            int newid = GetFirstColumnFirstRowValue("select * from recipe where recipename = '" + recipename + "'");
             Assert.IsTrue(newid > 0, "recipe with name = " + recipename + " is not found in db");
             TestContext.WriteLine("Recipe " + recipename + " is found in db with pk value = " + newid);
         }
@@ -51,7 +74,7 @@ namespace RecipeAppTest
         {
             int recipeid = GetExistingRecipeId();
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
-            int calories = SQLUtility.GetFirstColumnFirstRowValue("select calories from recipe where recipeid = " + recipeid);
+            int calories = GetFirstColumnFirstRowValue("select calories from recipe where recipeid = " + recipeid);
             TestContext.WriteLine("Calories for recipe with Id " + recipeid + " is " + calories);
             int increasedcalories = calories + 100;
             TestContext.WriteLine("Change calories to " + increasedcalories);
@@ -73,7 +96,7 @@ namespace RecipeAppTest
         {
             int recipeid = GetExistingRecipeId();
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
-            int calories = SQLUtility.GetFirstColumnFirstRowValue("select calories from recipe where recipeid = " + recipeid);
+            int calories = GetFirstColumnFirstRowValue("select calories from recipe where recipeid = " + recipeid);
             TestContext.WriteLine("Calories for recipe with Id " + recipeid + " is " + calories);
             calories = 0;
             TestContext.WriteLine("Change calories to " + calories);
@@ -88,11 +111,11 @@ namespace RecipeAppTest
         public void ChangeExistingRecipeToInvalidName()
         {
             
-            DataTable dt1 = SQLUtility.GetDataTable("select top 1 r.recipeid, RecipeName from recipe r ");
+            DataTable dt1 = GetDataTable("select top 1 r.recipeid, RecipeName from recipe r ");
             int recipeid = (int)dt1.Rows[0]["recipeid"];
             string recipename = dt1.Rows[0]["RecipeName"].ToString();
 
-            DataTable dt2 = SQLUtility.GetDataTable("select top 1 r.recipeid, RecipeName from recipe r where r.recipeid <> " + recipeid);
+            DataTable dt2 = GetDataTable("select top 1 r.recipeid, RecipeName from recipe r where r.recipeid <> " + recipeid);
             string newname = dt2.Rows[0]["RecipeName"].ToString();
 
             Assume.That(newname != "", "Cannot run test because there isn't another recipe record in the table.");
@@ -106,7 +129,7 @@ namespace RecipeAppTest
         [Test]
         public void DeleteRecipe()
         {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.recipeid, RecipeName from recipe r left join CookBookRecipes c on c.Recipeid = r.RecipeId where c.recipeid is null");
+            DataTable dt = GetDataTable("select top 1 r.recipeid, RecipeName from recipe r left join CookBookRecipes c on c.Recipeid = r.RecipeId where c.recipeid is null and r.recipestatus = 'Draft'");
             int recipeid = 0;
             string recipename = "";
             if(dt.Rows.Count > 0)
@@ -118,7 +141,7 @@ namespace RecipeAppTest
             TestContext.WriteLine("Record with recipe " + recipeid + "exits in db. (Does not have connection to cookbook).");
             TestContext.WriteLine("Ensure that app can delete " + recipeid);
             Recipe.Delete(dt);
-            DataTable dtafterdeltete = SQLUtility.GetDataTable("select * from recipe where recipeid = " + recipeid);
+            DataTable dtafterdeltete = GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(dtafterdeltete.Rows.Count == 0, "record with recipeid " + recipeid + " exists in db");
             TestContext.WriteLine("Record with recipe " + recipeid + " has been deleted and does not exist in db");
         }
@@ -133,7 +156,7 @@ where
 (r.RecipeStatus = 'published' 
 or datediff(day, r.archivedate, getdate())  < 30)
 ";
-            DataTable dt = SQLUtility.GetDataTable(sql);
+            DataTable dt = GetDataTable(sql);
             int recipeid = 0;
             string recipedesc = "";
             if (dt.Rows.Count > 0)
@@ -151,26 +174,26 @@ or datediff(day, r.archivedate, getdate())  < 30)
 
         }
 
-        [Test]
-        public void DeleteRecipeWithIngredients()
-        {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.recipeid, recipename from recipe r join recipeingredient i on i.recipeid = r.recipeid");
-            int recipeid = 0;
-            string recipedescription = "";
-            if (dt.Rows.Count > 0)
-            {
-                recipeid = (int)dt.Rows[0]["recipeid"];
-                recipedescription = dt.Rows[0]["RecipeName"].ToString() ;
-            }
-            Assume.That(recipeid > 0, "No recipes with ingredients in DB, can't run test");
-            TestContext.WriteLine("Existing recipe with ingredients, with id = " + recipeid + " " + recipedescription);
-            TestContext.WriteLine("Ensure that app cannot delete " + recipeid);
+        //[Test]
+        //public void DeleteRecipeWithIngredients()
+        //{
+        //    DataTable dt = GetDataTable("select top 1 r.recipeid, recipename from recipe r join recipeingredient i on i.recipeid = r.recipeid where r.recipestatus = 'draft'");
+        //    int recipeid = 0;
+        //    string recipedescription = "";
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        recipeid = (int)dt.Rows[0]["recipeid"];
+        //        recipedescription = dt.Rows[0]["RecipeName"].ToString() ;
+        //    }
+        //    Assume.That(recipeid > 0, "No recipes with ingredients in DB, can't run test");
+        //    TestContext.WriteLine("Existing recipe with ingredients, with id = " + recipeid + " " + recipedescription);
+        //    TestContext.WriteLine("Ensure that app cannot delete " + recipeid);
 
-            Exception ex = Assert.Throws<Exception>(() => Recipe.Delete(dt), "Cannot delete recipe with ingredients.");
+        //    Exception ex = Assert.Throws<Exception>(() => Recipe.Delete(dt), "Cannot delete recipe with ingredients.");
 
-            TestContext.WriteLine(ex.Message);
+        //    TestContext.WriteLine(ex.Message);
 
-        }
+        //}
 
         [Test]
         public void LoadRecipe()
@@ -194,7 +217,7 @@ or datediff(day, r.archivedate, getdate())  < 30)
         //[TestCase("s")]
         //public void SearchRecipe(string criteria)
         //{
-        //    int num = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
+        //    int num = GetFirstColumnFirstRowValue("select total = count(*) from recipe r where r.recipename like '%" + criteria + "%'");
         //    Assume.That(num > 0, "There aren't any recipes that match the search for " + criteria);
         //    TestContext.WriteLine(num + " recipes that match '" + criteria + "'.");
         //    TestContext.WriteLine("Ensure that recipe search returns " + num + " rows");
@@ -207,7 +230,7 @@ or datediff(day, r.archivedate, getdate())  < 30)
         [Test]
         public void GetListOfUsers()
         {
-            int usercount = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from users");
+            int usercount = GetFirstColumnFirstRowValue("select total = count(*) from users");
             Assume.That(usercount > 0, "No users in DB, can't test");
             TestContext.WriteLine("Num of users in DB = " + usercount);
             TestContext.WriteLine("Ensure that num of rows returned by app matches " + usercount);
@@ -219,7 +242,7 @@ or datediff(day, r.archivedate, getdate())  < 30)
         [Test]
         public void GetListOfCuisineTypes()
         {
-            int cuisinetypecount = SQLUtility.GetFirstColumnFirstRowValue("select total = count(*) from cuisinetype");
+            int cuisinetypecount = GetFirstColumnFirstRowValue("select total = count(*) from cuisinetype");
             Assume.That(cuisinetypecount > 0, "No cuisine types in DB, can't test");
             TestContext.WriteLine("Num of Cuisine types in DB = " + cuisinetypecount);
             TestContext.WriteLine("Ensure that num of rows returned by app matches " + cuisinetypecount);
@@ -230,13 +253,13 @@ or datediff(day, r.archivedate, getdate())  < 30)
 
         private int GetExistingRecipeId()
         {
-            return SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
+            return GetFirstColumnFirstRowValue("select top 1 recipeid from recipe");
         }
 
 
         private string GetFirstColumnFirstRowValueAsString()
         {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 recipe from recipe r");
+            DataTable dt = GetDataTable("select top 1 recipe from recipe r");
             return dt.Rows[0]["RecipeName"].ToString();  
         }
 

@@ -18,7 +18,7 @@ begin
 
 	if @recipeid = 0
 	begin
-		select @DraftDate = getdate()
+		--select @DraftDate = getdate()
 		insert Recipe(UsersId, CuisineTypeId,RecipeName, Calories, DraftDate, PublishDate, ArchiveDate)
 		values(@UsersId, @CuisineTypeId, @RecipeName, @Calories, @DraftDate, @PublishDate, @ArchiveDate)
 		

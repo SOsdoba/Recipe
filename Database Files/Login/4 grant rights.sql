@@ -23,13 +23,10 @@ grant execute on RecipeIngredientsUpdate to recipeapprole
 grant execute on RecipeDesc to recipeapprole
 grant execute on CookBookRecipesUpdate to recipeapprole
 grant execute on CookBookDelete to recipeapprole
-grant execute on PartyDesc to recipeapprole
-grant execute on CourseGet to recipeapprole
 grant execute on UsersUpdate to recipeapprole
 grant execute on CuisineTypeUpdate to recipeapprole
 grant execute on IngredientUpdate to recipeapprole
 grant execute on MeasurementTypeUpdate to recipeapprole
-grant execute on CourseUpdate to recipeapprole
 grant execute on CourseTypeUpdate to recipeapprole
 grant execute on CourseTypeGet to recipeapprole
 grant execute on DashboardGet to recipeapprole
