@@ -31,8 +31,8 @@ namespace RecipeWinForms
             {
                 string connstringkey = "";
 #if DEBUG 
-                connstringkey = "devconn";
-                
+                connstringkey = "azuredevconn";
+
 #else
                 connstringkey = "liveconn";
 #endif
