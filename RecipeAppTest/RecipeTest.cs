@@ -1,6 +1,3 @@
-using NUnit.Framework.Internal.Execution;
-using RecipeAppSystem;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 
@@ -8,9 +5,8 @@ namespace RecipeAppTest
 {
     public class RecipeTest
     {
-        string connstring = ConfigurationManager.ConnectionStrings["azureuserconn"].ConnectionString;
-        string devconnstring = ConfigurationManager.ConnectionStrings["azuredevconn"].ConnectionString;
-
+        string devconnstring = ConfigurationManager.ConnectionStrings["liveconn"].ConnectionString;
+        string unittestconnstring = ConfigurationManager.ConnectionStrings["unittestliveconn"].ConnectionString;
 
         [SetUp]
         public void Setup()
@@ -21,18 +17,18 @@ namespace RecipeAppTest
         private DataTable GetDataTable(string sql)
         {
             DataTable dt = new();
-            DBManager.SetConnectionString(devconnstring, false);
+            DBManager.SetConnectionString(unittestconnstring, false);
             dt = SQLUtility.GetDataTable(sql);
-            DBManager.SetConnectionString(connstring, false);
+            DBManager.SetConnectionString(devconnstring, false);
             return dt;
         }
 
         private int GetFirstColumnFirstRowValue(string sql)
         {
             int n = 0;
-            DBManager.SetConnectionString(devconnstring, false);
+            DBManager.SetConnectionString(unittestconnstring, false);
             n = SQLUtility.GetFirstColumnFirstRowValue(sql);
-            DBManager.SetConnectionString(connstring, false);
+            DBManager.SetConnectionString(devconnstring, false);
             return n;
         }
 
