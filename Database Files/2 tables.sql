@@ -104,6 +104,10 @@ alter table Recipe add RecipeStatus as case
         when ArchiveDate > DraftDate and PublishDate is null then 'Archived'
         end persisted
 go
+alter table Recipe drop column if exists RecipePicture
+go 
+alter table Recipe add RecipePicture as concat('recipe_', lower(replace(RecipeName, ' ', '_')), '.jpg') persisted
+go
 
 create table dbo.MeasurementType (
     MeasurementTypeId int not null identity primary key, 
