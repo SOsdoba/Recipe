@@ -59,7 +59,8 @@ namespace RecipeAppTest
             r["DraftDate"] = draftdate;
             r["PublishDate"] = publishdate;
             r["ArchiveDate"] = archivedate;
-            Recipe.Save(dt);
+            bizRecipe recipe = new();
+            recipe.Save(dt);
 
             int newid = GetFirstColumnFirstRowValue("select * from recipe where recipename = '" + recipename + "'");
             Assert.IsTrue(newid > 0, "recipe with name = " + recipename + " is not found in db");
@@ -137,7 +138,8 @@ namespace RecipeAppTest
             Assume.That(recipeid > 0, "No recipes without connection to a cookbook, can't run test");
             TestContext.WriteLine("Record with recipe " + recipeid + "exits in db. (Does not have connection to cookbook).");
             TestContext.WriteLine("Ensure that app can delete " + recipeid);
-            Recipe.Delete(dt);
+            bizRecipe recipe = new();
+            recipe.Delete(dt);
             DataTable dtafterdeltete = GetDataTable("select * from recipe where recipeid = " + recipeid);
             Assert.IsTrue(dtafterdeltete.Rows.Count == 0, "record with recipeid " + recipeid + " exists in db");
             TestContext.WriteLine("Record with recipe " + recipeid + " has been deleted and does not exist in db");
@@ -199,7 +201,8 @@ or datediff(day, r.archivedate, getdate())  < 30)
             Assume.That(recipeid > 0, "No recipes in db, can't run test");
             TestContext.WriteLine("Existing recipe with id = " + recipeid);
             TestContext.WriteLine("Ensure that app loads recipe " + recipeid);
-            DataTable dt = Recipe.Load(recipeid);
+            bizRecipe recipe = new();
+            DataTable dt = recipe.Load(recipeid);
             int loadedid = 0;
             if (dt.Rows.Count > 0)
             {
