@@ -5,8 +5,8 @@ namespace RecipeAppTest
 {
     public class RecipeTest
     {
-        string devconnstring = ConfigurationManager.ConnectionStrings["devconn"].ConnectionString;
-        string unittestconn = ConfigurationManager.ConnectionStrings["unittestconn"].ConnectionString;
+        //string devconnstring = ConfigurationManager.ConnectionStrings["devconn"].ConnectionString;
+        //string unittestconn = ConfigurationManager.ConnectionStrings["unittestconn"].ConnectionString;
         string liveconnstring = ConfigurationManager.ConnectionStrings["liveconn"].ConnectionString;
         
         [SetUp]

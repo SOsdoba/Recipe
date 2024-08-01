@@ -13,7 +13,7 @@ namespace RecipeAppSystem
         private string _ingredientname = "";
         
 
-        public int PartyId
+        public int IngredientId
         {
             get { return _ingredientid; }
             set
