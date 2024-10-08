@@ -73,6 +73,11 @@ union select (select u.usersid from users u where u.Username = 'samuelr'), (sele
 union select (select u.usersid from users u where u.Username = 'samuelr'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'English'), 'Mozzarella Stick', 45, '01-13-2010', '11-22-2020', null
 union select (select u.usersid from users u where u.Username = 'davidf'), (select c.cuisinetypeid from cuisinetype c where c.cuisinetype = 'French'), 'Cream Cheese Frosting', 30, '12-10-2018', '12-01-2021', null
 
+update Recipe set Vegan = 'Yes'
+where recipeid < 50
+update Recipe set Vegan = 'No'
+where recipeid > 50
+
 insert MeasurementType(MeasurementType)
 select 'Cup'
 union select 'tsp'

@@ -20,6 +20,9 @@ namespace RecipeAppSystem
         private DateTime _publishdate;
         private DateTime _archivedate;
         private string _recipestatus;
+        private string _vegan;
+        private string _username;
+        private int _numingredients;
 
         public int RecipeId
         {
@@ -132,6 +135,45 @@ namespace RecipeAppSystem
                 if (_recipestatus != value)
                 {
                     _recipestatus = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+
+        public string Vegan
+        {
+            get { return _vegan; }
+            set
+            {
+                if (_vegan != value)
+                {
+                    _vegan = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+
+        public string UserName
+        {
+            get { return _username; }
+            set
+            {
+                if (_username != value)
+                {
+                    _username = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+
+        public int NumIngredients
+        {
+            get { return _numingredients; }
+            set
+            {
+                if (_numingredients != value)
+                {
+                    _numingredients = value;
                     InvokePropertyChanged();
                 }
             }
