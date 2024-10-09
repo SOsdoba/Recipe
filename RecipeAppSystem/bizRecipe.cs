@@ -1,6 +1,8 @@
 ﻿using CPUFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,14 @@ namespace RecipeAppSystem
         private string _vegan;
         private string _username;
         private int _numingredients;
+
+        public List<bizRecipe> SearchByCookBook(string cookbookname)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeSearch");
+            SQLUtility.SetParamValue(cmd, "@CookBookName", cookbookname);
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            return this.GetListFromDataTable(dt);
+        }
 
         public int RecipeId
         {

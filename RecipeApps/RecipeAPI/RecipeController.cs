@@ -19,5 +19,19 @@ namespace RecipeAPI
         {
             return new bizRecipe().SearchWithId(recipeid);
         }
+
+        [HttpGet("getbycookbook/{cookbookname}")]
+        public List<bizRecipe> GetByCookbook(string cookbookname)
+        {
+            try
+            {
+                return new bizRecipe().SearchByCookBook(cookbookname);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here
+                throw new Exception("An error occurred while processing your request. Please try again later.", ex);
+            }
+        }
     }
 }

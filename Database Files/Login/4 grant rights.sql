@@ -2,7 +2,7 @@ use RecipeDB
 go
 --select concat('grant execute on ', r.ROUTINE_NAME, ' to recipeapprole')
 --from INFORMATION_SCHEMA.ROUTINES r
-
+GRANT EXECUTE ON RecipeSearch TO recipeapprole
 grant execute on CuisineTypeGet to recipeapprole
 grant execute on CreateCookBook to recipeapprole
 grant execute on RecipeGet to recipeapprole
