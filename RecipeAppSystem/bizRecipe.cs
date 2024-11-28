@@ -25,6 +25,7 @@ namespace RecipeAppSystem
         private string _vegan;
         private string _username;
         private int _numingredients;
+        private string _recipepicture;
 
         public List<bizRecipe> SearchByCookBook(string cookbookname)
         {
@@ -32,6 +33,15 @@ namespace RecipeAppSystem
             SQLUtility.SetParamValue(cmd, "@CookBookName", cookbookname);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
+        }
+
+        public List<bizRecipe> SearchByCuisineTypeId(int cuisinetypeid)
+        {
+            SqlCommand cmd = SQLUtility.GetSQLCommand("GetRecipeByCuisine");
+            SQLUtility.SetParamValue(cmd, "@CuisineTypeId", cuisinetypeid);
+            DataTable dt = SQLUtility.GetDataTable(cmd);
+            return this.GetListFromDataTable(dt);
+
         }
 
         public int RecipeId
@@ -188,5 +198,19 @@ namespace RecipeAppSystem
                 }
             }
         }
+
+        public string RecipePicture
+        {
+            get { return _recipepicture; }
+            set
+            {
+                if (_recipepicture != value)
+                {
+                    _recipepicture = value;
+                    InvokePropertyChanged();
+                }
+            }
+        }
+
     }
 }

@@ -33,5 +33,18 @@ namespace RecipeAPI
                 throw new Exception("An error occurred while processing your request. Please try again later.", ex);
             }
         }
+
+        [HttpGet("getbycuisine/{cuisinetypeid}")]
+        public List<bizRecipe> GetByCuisine(int cuisinetypeid)
+        {
+            try
+            {
+                return new bizRecipe().SearchByCuisineTypeId(cuisinetypeid);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing your request. Please try again later.", ex);
+            }
+        }
     }
 }

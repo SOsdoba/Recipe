@@ -8,7 +8,7 @@ begin
 
 	select @CookBookName = isnull(@CookBookName,'')	
 
-	select r.RecipeId, c.cookbookid, r.recipename, r.usersid, u.username, r.calories, NumIngredients = count(ri.recipeid), r.vegan, r.recipestatus, r.CuisineTypeId
+	select r.RecipeId, c.cookbookid, r.recipename, r.usersid, u.username, r.calories, NumIngredients = count(ri.recipeid), r.vegan, r.recipestatus, r.CuisineTypeId, r.recipepicture
 	from recipe r
 	join CookBookRecipes cr 
 	on r.recipeid = cr.recipeid
@@ -19,7 +19,7 @@ begin
 	join RecipeIngredient ri
 	 on ri.recipeid = r.recipeid
 	where c.cookbookname = @CookBookName
-	group by r.RecipeId, c.cookbookid, r.recipename, r.usersid, u.username, r.calories, r.vegan, r.recipestatus, r.CuisineTypeId
+	group by r.RecipeId, c.cookbookid, r.recipename, r.usersid, u.username, r.calories, r.vegan, r.recipestatus, r.CuisineTypeId, r.recipepicture
 
 end 
 go

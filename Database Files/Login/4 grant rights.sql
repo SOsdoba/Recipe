@@ -39,3 +39,4 @@ grant execute on CloneRecipe to recipeapprole
 grant execute on CourseTypeDelete to recipeapprole
 grant execute on RecipeDelete to recipeapprole
 grant execute on CookBookGet to recipeapprole
+grant execute on GetRecipeByCuisine to recipeapprole
