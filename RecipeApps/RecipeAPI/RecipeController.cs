@@ -46,5 +46,34 @@ namespace RecipeAPI
                 throw new Exception("An error occurred while processing your request. Please try again later.", ex);
             }
         }
+
+        [HttpPost]
+        public IActionResult PostRecipe([FromForm]RecipeCreate recipe)
+        {
+            try
+            {
+                recipe.Save();
+                return Ok(new {message = "Recipe Saved!", recipeid = recipe.RecipeId});
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int recipeid)
+        {
+            try
+            { 
+                bizRecipe r = new();
+                r.Delete(recipeid);
+                return Ok(new {message = "Recipe Deleted!"});
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
     }
 }

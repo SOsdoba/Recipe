@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace RecipeAppSystem
 {
-    public class bizRecipe : bizObject<bizRecipe>
+    public class RecipeCreate : bizObject<RecipeCreate>
     {
-        public bizRecipe() { }
+        public RecipeCreate() { }
 
         private int _recipeid;
         private int _usersid;
@@ -22,52 +22,6 @@ namespace RecipeAppSystem
         private DateTime _publishdate;
         private DateTime _archivedate;
         private string _recipestatus;
-        private string _vegan;
-        private string _username;
-        private int _numingredients;
-        private string _recipepicture;
-        public List<bizRecipeIngredients> _lstrecipeingredients;
-        public List<bizRecipeSteps> _lstrecipesteps;
-
-        public List<bizRecipe> SearchByCookBook(string cookbookname)
-        {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("RecipeSearch");
-            SQLUtility.SetParamValue(cmd, "@CookBookName", cookbookname);
-            DataTable dt = SQLUtility.GetDataTable(cmd);
-            return this.GetListFromDataTable(dt);
-        }
-
-        public List<bizRecipe> SearchByCuisineTypeId(int cuisinetypeid)
-        {
-            SqlCommand cmd = SQLUtility.GetSQLCommand("GetRecipeByCuisine");
-            SQLUtility.SetParamValue(cmd, "@CuisineTypeId", cuisinetypeid);
-            DataTable dt = SQLUtility.GetDataTable(cmd);
-            return this.GetListFromDataTable(dt);
-
-        }
-        public List<bizRecipeSteps> RecipeSteps
-        {
-            get
-            {
-                if (_lstrecipesteps == null)
-                {
-                    _lstrecipesteps = new bizRecipeSteps().LoadByRecipeId(this.RecipeId);
-                }
-                return _lstrecipesteps;
-            }
-        }
-
-
-        public List<bizRecipeIngredients> RecipeIngredients
-        {
-            get {
-                if (_lstrecipeingredients == null)
-                {
-                    _lstrecipeingredients = new bizRecipeIngredients().LoadByRecipeId(this.RecipeId);
-                }
-                return _lstrecipeingredients;
-            }
-        }
 
 
         public int RecipeId
@@ -75,7 +29,7 @@ namespace RecipeAppSystem
             get { return _recipeid; }
             set
             {
-                if(_recipeid != value)
+                if (_recipeid != value)
                 {
                     _recipeid = value;
                     InvokePropertyChanged();
@@ -186,57 +140,7 @@ namespace RecipeAppSystem
             }
         }
 
-        public string Vegan
-        {
-            get { return _vegan; }
-            set
-            {
-                if (_vegan != value)
-                {
-                    _vegan = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
 
-        public string UserName
-        {
-            get { return _username; }
-            set
-            {
-                if (_username != value)
-                {
-                    _username = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
-
-        public int NumIngredients
-        {
-            get { return _numingredients; }
-            set
-            {
-                if (_numingredients != value)
-                {
-                    _numingredients = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
-
-        public string RecipePicture
-        {
-            get { return _recipepicture; }
-            set
-            {
-                if (_recipepicture != value)
-                {
-                    _recipepicture = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
 
     }
 }

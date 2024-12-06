@@ -10,8 +10,10 @@ begin
 
 	select @All = isnull(@All, 0), @RecipeIngredientId = isnull(@RecipeIngredientId,0), @RecipeId = isnull(@recipeid, 0)
 
-	select  ri.recipeingredientid, ri.MeasurementTypeid, ri.RecipeId, ri.IngredientId, ri.Amount, IngredientSequence = ri.SequenceOfIngredients
+	select  ri.recipeingredientid, ri.MeasurementTypeid, ri.RecipeId, ri.IngredientId, ri.Amount, IngredientSequence = ri.SequenceOfIngredients, i.IngredientName
 	from RecipeIngredient ri
+	join ingredient i
+	on ri.IngredientId = i.IngredientId
 	where ri.RecipeIngredientId = @RecipeIngredientId
 	or @All = 1
 	or ri.RecipeId = @RecipeId
