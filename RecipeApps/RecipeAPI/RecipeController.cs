@@ -11,7 +11,8 @@ namespace RecipeAPI
         [HttpGet]
         public List<bizRecipe> get()
         {
-            return new bizRecipe().GetList(false, true);
+            return new bizRecipe().GetList(false, true); ;
+            
         }
 
         [HttpGet("{recipeid}")]
@@ -25,6 +26,7 @@ namespace RecipeAPI
         {
             try
             {
+
                 return new bizRecipe().SearchByCookBook(cookbookname);
             }
             catch (Exception ex)
@@ -39,6 +41,7 @@ namespace RecipeAPI
         {
             try
             {
+               
                 return new bizRecipe().SearchByCuisineTypeId(cuisinetypeid);
             }
             catch (Exception ex)
@@ -46,33 +49,35 @@ namespace RecipeAPI
                 throw new Exception("An error occurred while processing your request. Please try again later.", ex);
             }
         }
-
+        //[FromForm]
         [HttpPost]
-        public IActionResult PostRecipe([FromForm]RecipeCreate recipe)
+        public IActionResult PostRecipe(bizRecipe recipe)
         {
             try
             {
                 recipe.Save();
-                return Ok(new {message = "Recipe Saved!", recipeid = recipe.RecipeId});
+                return Ok(recipe);
             }
             catch(Exception ex)
             {
-                return BadRequest(new { ex.Message });
+                recipe.ErrorMessage = ex.Message;
+                return BadRequest(recipe);
             }
         }
 
         [HttpDelete]
         public IActionResult Delete(int recipeid)
         {
+            bizRecipe r = new();
             try
             { 
-                bizRecipe r = new();
                 r.Delete(recipeid);
-                return Ok(new {message = "Recipe Deleted!"});
+                return Ok(r);
             }
             catch(Exception ex)
             {
-                return BadRequest(new { ex.Message });
+                r.ErrorMessage = ex.Message;
+                return BadRequest(r);
             }
         }
     }

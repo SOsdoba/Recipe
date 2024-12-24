@@ -6,6 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using System.ComponentModel;
 
 namespace RecipeAppSystem
 {
@@ -19,13 +22,13 @@ namespace RecipeAppSystem
         private string _recipename;
         private int _calories;
         private DateTime _draftdate;
-        private DateTime _publishdate;
-        private DateTime _archivedate;
-        private string _recipestatus;
-        private string _vegan;
-        private string _username;
-        private int _numingredients;
-        private string _recipepicture;
+        private DateTime? _publishdate;
+        private DateTime? _archivedate;
+        private string? _recipestatus;
+        private string? _vegan;
+        private string? _username;
+        //private int? _numingredients;
+        private string? _recipepicture;
         public List<bizRecipeIngredients> _lstrecipeingredients;
         public List<bizRecipeSteps> _lstrecipesteps;
 
@@ -35,7 +38,7 @@ namespace RecipeAppSystem
             SQLUtility.SetParamValue(cmd, "@CookBookName", cookbookname);
             DataTable dt = SQLUtility.GetDataTable(cmd);
             return this.GetListFromDataTable(dt);
-        }
+        }        
 
         public List<bizRecipe> SearchByCuisineTypeId(int cuisinetypeid)
         {
@@ -82,7 +85,6 @@ namespace RecipeAppSystem
                 }
             }
         }
-
         public int UsersId
         {
             get { return _usersid; }
@@ -95,7 +97,6 @@ namespace RecipeAppSystem
                 }
             }
         }
-
         public int CuisineTypeId
         {
             get { return _cuisinetypeid; }
@@ -108,7 +109,6 @@ namespace RecipeAppSystem
                 }
             }
         }
-
         public string RecipeName
         {
             get { return _recipename; }
@@ -134,12 +134,13 @@ namespace RecipeAppSystem
             }
         }
 
+       
         public DateTime DraftDate
         {
             get { return _draftdate; }
             set
             {
-                if (_draftdate != value)
+                if (_draftdate != value.Date)
                 {
                     _draftdate = value;
                     InvokePropertyChanged();
@@ -147,7 +148,7 @@ namespace RecipeAppSystem
             }
         }
 
-        public DateTime PublishDate
+        public DateTime? PublishDate
         {
             get { return _publishdate; }
             set
@@ -160,20 +161,21 @@ namespace RecipeAppSystem
             }
         }
 
-        public DateTime ArchiveDate
+        public DateTime? ArchiveDate
         {
             get { return _archivedate; }
             set
             {
                 if (_archivedate != value)
                 {
+
                     _archivedate = value;
                     InvokePropertyChanged();
                 }
             }
         }
 
-        public string RecipeStatus
+        public string? RecipeStatus
         {
             get { return _recipestatus; }
             set
@@ -186,7 +188,7 @@ namespace RecipeAppSystem
             }
         }
 
-        public string Vegan
+        public string? Vegan
         {
             get { return _vegan; }
             set
@@ -199,7 +201,7 @@ namespace RecipeAppSystem
             }
         }
 
-        public string UserName
+        public string? UserName
         {
             get { return _username; }
             set
@@ -212,20 +214,20 @@ namespace RecipeAppSystem
             }
         }
 
-        public int NumIngredients
-        {
-            get { return _numingredients; }
-            set
-            {
-                if (_numingredients != value)
-                {
-                    _numingredients = value;
-                    InvokePropertyChanged();
-                }
-            }
-        }
+        //public int? NumIngredients
+        //{
+        //    get { return _numingredients; }
+        //    set
+        //    {
+        //        if (_numingredients != value)
+        //        {
+        //            _numingredients = value;
+        //            InvokePropertyChanged();
+        //        }
+        //    }
+        //}
 
-        public string RecipePicture
+        public string? RecipePicture
         {
             get { return _recipepicture; }
             set

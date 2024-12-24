@@ -37,6 +37,7 @@ begin
 		PublishDate = @PublishDate,
 		ArchiveDate = @ArchiveDate
 		where RecipeId = @RecipeId
+		select @RecipeStatus = r.recipestatus from Recipe r where r.recipeid = @Recipeid
 	end
 
 	return @return

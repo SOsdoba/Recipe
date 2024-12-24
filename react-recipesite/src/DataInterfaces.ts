@@ -13,6 +13,13 @@ export interface IRecipe {
     publishDate: string,
     archiveDate: string,
     recipeStatus: string,
-    vegan: boolean,
-    recipePicture: string
+    vegan: string,
+    userName: string,
+    recipePicture: string,
+    errorMessage: string
+}
+
+export interface IUser {
+    usersId: number;
+    userName: string;
 }
